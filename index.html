@@ -7,7 +7,7 @@
   <meta name="description" content="Simulatore orientativo CPdL per confrontare le scale contributive partendo dalla busta paga oppure da quanto ricevi sul conto.">
   <title>CPdL · Quanto cambia sullo stipendio?</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/style.css?v=0.18.0">
+  <link rel="stylesheet" href="assets/style.css?v=0.19.0">
 </head>
 <body>
   <header class="site-header">
@@ -27,7 +27,7 @@
     <section class="hero shell">
       <span class="eyebrow">Scala contributiva 2027</span>
       <h1>Quanto cambierebbe il tuo stipendio?</h1>
-      <p>Puoi iniziare in due modi. Se hai la busta paga ottieni una stima più precisa. Se non ce l'hai, basta sapere <strong>quanto ti arriva sul conto</strong>.</p>
+      <p>Puoi iniziare in due modi. In pochi passaggi vedi <strong>quanto cambia la trattenuta</strong>, l’effetto economico indicativo dopo le imposte e <strong>quanto in più destini alla tua previdenza</strong>.</p>
       <div class="hero-points" aria-label="Caratteristiche del simulatore">
         <span>✓ Nessun login</span>
         <span>✓ Nessun dato salvato</span>
@@ -104,9 +104,9 @@
 
       <div class="simple-row">
         <label class="field compact-field">
-          <span>Quanti anni hai?</span>
-          <input id="startPayslipAge" type="number" inputmode="numeric" min="18" max="70" placeholder="es. 46">
-          <small>Ci aiuta a controllare la fascia contributiva.</small>
+          <span>Quanti anni compirai nel 2027?</span>
+          <input id="startPayslipAge" type="number" inputmode="numeric" min="18" max="70" placeholder="es. 47">
+          <small>La fascia contributiva 2027 vale per l’intero anno civile.</small>
         </label>
         <label class="field compact-field">
           <span>Quanto ricevi sul conto? <em>facoltativo</em></span>
@@ -134,7 +134,7 @@
         <div>
           <span class="step-kicker">Senza busta paga</span>
           <h2 id="bank-start-title">Parti da quello che sai</h2>
-          <p>Niente termini tecnici. Ti servono soltanto quanto ricevi sul conto e la tua età.</p>
+          <p>Niente termini tecnici. Ti servono quanto ricevi sul conto, l’età che compirai nel 2027 e il tuo grado d’occupazione.</p>
         </div>
       </div>
 
@@ -146,19 +146,45 @@
         </label>
 
         <label class="field big-field">
-          <span>Quanti anni hai?</span>
-          <input id="age" type="number" inputmode="numeric" min="18" max="70" placeholder="es. 46">
-          <small>Serve per capire quale fascia contributiva usare.</small>
+          <span>Quanti anni compirai nel 2027?</span>
+          <input id="age" type="number" inputmode="numeric" min="18" max="70" placeholder="es. 47">
+          <small>La fascia contributiva 2027 vale per tutto l’anno civile.</small>
+        </label>
+
+        <label class="field big-field span-2">
+          <span>A che percentuale lavori?</span>
+          <div class="money-input suffix"><input id="employmentRate" type="number" inputmode="decimal" min="1" max="100" step="1" placeholder="es. 100"><b>%</b></div>
+          <small>Serve perché il tetto della deduzione di coordinamento varia con il grado d’occupazione.</small>
         </label>
 
         <fieldset class="choice-field">
-          <legend>Hai la tredicesima?</legend>
-          <div class="choice-row" role="radiogroup" aria-label="Tredicesima">
-            <label><input type="radio" name="salaryMonths" value="13"><span>Sì</span></label>
-            <label><input type="radio" name="salaryMonths" value="12"><span>No</span></label>
-            <label><input type="radio" name="salaryMonths" value="unknown" checked><span>Non lo so</span></label>
+          <legend>Quante mensilità ricevi?</legend>
+          <div class="choice-row" role="radiogroup" aria-label="Mensilità salariali">
+            <label><input type="radio" name="salaryMonths" value="13" checked><span>13</span></label>
+            <label><input type="radio" name="salaryMonths" value="12"><span>12</span></label>
           </div>
-          <small>Se non lo sai, per la prima stima useremo 13 mensilità.</small>
+          <small>Per i collaboratori ROCCL la situazione ordinaria è 13 mensilità; alcune categorie ne hanno 12.</small>
+        </fieldset>
+
+        <fieldset class="choice-field">
+          <legend>Sai quale scala contributiva hai oggi?</legend>
+          <div class="choice-row" role="radiogroup" aria-label="Scala contributiva attuale">
+            <label><input type="radio" name="bankCurrentScale" value="1"><span>Scala 1</span></label>
+            <label><input type="radio" name="bankCurrentScale" value="2"><span>Scala 2</span></label>
+            <label><input type="radio" name="bankCurrentScale" value="3"><span>Scala 3</span></label>
+            <label><input type="radio" name="bankCurrentScale" value="unknown" checked><span>Non lo so</span></label>
+          </div>
+          <small>Se non lo sai useremo la Scala 1 come riferimento, perché è la scala standard.</small>
+        </fieldset>
+
+        <fieldset class="choice-field">
+          <legend>Sei soggetto all’imposta alla fonte?</legend>
+          <div class="choice-row" role="radiogroup" aria-label="Imposta alla fonte">
+            <label><input type="radio" name="bankSourceTax" value="no"><span>No</span></label>
+            <label><input type="radio" name="bankSourceTax" value="yes"><span>Sì</span></label>
+            <label><input type="radio" name="bankSourceTax" value="unknown" checked><span>Non lo so</span></label>
+          </div>
+          <small>Se sei alla fonte, il solo netto non permette di ricostruire in modo affidabile la Base CP: è preferibile usare la busta paga.</small>
         </fieldset>
       </div>
 
@@ -188,11 +214,13 @@
         <p id="assumptionText"><strong>Stima orientativa.</strong> Puoi renderla più precisa aggiungendo i dati della busta paga.</p>
       </div>
 
+      <div class="rate-context" id="rateContext" aria-live="polite"></div>
+
       <div class="scale-explainer">
         <strong>Le tre scale, in parole semplici</strong>
         <span><b>Scala 1</b> · standard</span>
-        <span><b>Scala 2</b> · versi di più e aumenti la tua previdenza</span>
-        <span><b>Scala 3</b> · versi ancora di più e aumenti ulteriormente la tua previdenza</span>
+        <span><b>Scala 2</b> · +2 punti rispetto alla Scala 1</span>
+        <span><b>Scala 3</b> · +4 punti rispetto alla Scala 1</span>
       </div>
 
       <div class="scale-grid" id="scaleGrid" aria-live="polite"></div>
@@ -260,23 +288,24 @@
           <div class="step-badge">3</div>
           <div>
             <span class="step-kicker">Facoltativo</span>
-            <h2 id="tax-title">Vuoi vedere anche l'effetto sulle imposte?</h2>
-            <p>Facciamo un calcolo approssimativo del possibile risparmio d'imposta. Non è un calcolo ufficiale delle imposte.</p>
+            <h2 id="tax-title">Vuoi controllare la stima sulle imposte?</h2>
+            <p>Il valore mostrato sopra è un ordine di grandezza, non un calcolo fiscale ufficiale. Se sei soggetto all’imposta alla fonte è importante indicarlo qui.</p>
           </div>
         </div>
-        <div class="tax-summary">
-          <div><span>Risparmio d'imposta indicativo sulla scala selezionata</span><strong id="taxSavingOut">–</strong><small id="taxSavingNote">Seleziona una scala diversa da quella di riferimento.</small></div>
-          <button type="button" class="secondary-button" id="taxMoreButton">Rendi la stima sulle imposte più precisa</button>
+        <div class="tax-summary tax-summary-v019">
+          <div><span>Effetto fiscale indicativo sulla scala selezionata</span><strong id="taxSavingOut">–</strong><small id="taxSavingNote">Seleziona una scala diversa da quella di riferimento.</small></div>
+          <label class="quick-tax-field"><span>Imposta alla fonte?</span><select id="sourceTax"><option value="unknown">Non lo so</option><option value="no">No</option><option value="yes">Sì</option></select></label>
+          <button type="button" class="secondary-button" id="taxMoreButton">Affina l’ordine di grandezza</button>
         </div>
         <div class="tax-detail" id="taxDetail" hidden>
           <div class="form-grid cols-2">
-            <label class="field"><span>Comune di domicilio</span><select id="municipality"><option value="lugano">Lugano</option><option value="other">Altro Comune ticinese</option><option value="outside">Fuori Ticino</option></select></label>
-            <label class="field"><span>Stato civile</span><select id="marital"><option value="single">Celibe / nubile / separato</option><option value="married">Coniugato/a</option></select></label>
-            <label class="field"><span>Figli a carico</span><select id="children"><option value="0">Nessuno</option><option value="1">1</option><option value="2">2</option><option value="3">3 o più</option></select></label>
-            <label class="field"><span>Imposta alla fonte</span><select id="sourceTax"><option value="no">No</option><option value="yes">Sì</option></select></label>
-            <label class="field" id="spouseWrap" hidden><span>Reddito annuo indicativo del coniuge</span><select id="spouseIncome"><option value="0">Nessun reddito</option><option value="30000">Fino a CHF 50'000</option><option value="75000">CHF 50'000–100'000</option><option value="125000">Oltre CHF 100'000</option></select></label>
+            <label class="field">
+              <span>Aliquota marginale indicativa <em>facoltativo</em></span>
+              <div class="money-input suffix"><input id="marginalTaxRate" type="number" inputmode="decimal" min="5" max="50" step="0.5" placeholder="es. 25"><b>%</b></div>
+              <small>Se non la conosci, lascia vuoto: useremo una stima automatica molto semplice.</small>
+            </label>
           </div>
-          <div class="model-warning"><strong>Stima indicativa delle imposte.</strong> Le imposte personali dipendono da molti fattori. Questi dati servono solo ad affinare l'ordine di grandezza.</div>
+          <div class="model-warning"><strong>Stima indicativa, non calcolo fiscale.</strong> Il risparmio effettivo dipende dalla situazione personale. Per chi è soggetto all’imposta alla fonte il simulatore non applica un risparmio fiscale alla maggiore deduzione CP.</div>
         </div>
       </section>
 
@@ -292,8 +321,10 @@
       <details class="technical-notes">
         <summary>Informazioni tecniche e limiti della simulazione</summary>
         <div>
-          <p>Se parti dal conto, la prima stima ricostruisce indicativamente la situazione usando i parametri disponibili per il 2026. Se parti dalla busta paga e inserisci almeno due dati della riga CP, il calcolo della trattenuta è molto più preciso.</p>
-          <p>I parametri 2027 possono cambiare. Il risultato non costituisce una conferma salariale, un calcolo ufficiale delle imposte o una simulazione previdenziale ufficiale. Per la simulazione delle prestazioni future fa stato MyPension.</p>
+          <p><strong>Regole CP considerate.</strong> Per i collaboratori ROCCL lo stipendio annuo è normalmente su 13 mensilità, mentre la contribuzione CP viene ripartita su 12 mesi. La fascia d’età vale per l’intero anno civile. Nel calcolo CP entra lo stipendio annuale; la deduzione di coordinamento è pari al 35% dello stipendio annuo, con tetto massimo proporzionato al grado d’occupazione.</p>
+          <p><strong>Parametri oggi disponibili.</strong> Soglia d’entrata CHF 20’160, salario assicurato minimo CHF 13’200 e deduzione di coordinamento massima CHF 26’460 sono valori basati sui parametri attualmente disponibili e possono cambiare per il 2027. Anche le aliquote o altre regole possono essere aggiornate in caso di modifica del regolamento.</p>
+          <p><strong>Stima dal conto.</strong> La ricostruzione usa AVS 5.30%, AD 1.10% e INP 1.13%; AD e INP sono calcolati fino a CHF 12’350 mensili. Per i docenti l’INP può differire. Se sei soggetto all’imposta alla fonte, il solo netto non consente una ricostruzione affidabile della Base CP: usa preferibilmente la busta paga.</p>
+          <p><strong>Stima da busta paga.</strong> Il calcolo assume che Base CP, stipendio e grado d’occupazione restino invariati nel 2027. Se cambiano, il risultato deve essere ricalcolato. I casi di permanenza assicurativa oltre l’età di riferimento AVS possono seguire regole particolari e non sono modellati qui. Il risultato non costituisce una conferma salariale, un calcolo ufficiale delle imposte o una simulazione previdenziale ufficiale. Per le prestazioni future fa stato MyPension.</p>
         </div>
       </details>
 
@@ -306,11 +337,11 @@
 
   <footer class="site-footer">
     <div class="shell footer-inner">
-      <div><strong>CPdL · Simulatore orientativo</strong><span>Prototipo v0.18 · ottobre 2026</span></div>
+      <div><strong>CPdL · Simulatore orientativo</strong><span>Prototipo v0.19 · ottobre 2026</span></div>
       <p>I dati inseriti restano nel browser e non vengono trasmessi o salvati.</p>
     </div>
   </footer>
 
-  <script src="assets/app.js?v=0.18.0"></script>
+  <script src="assets/app.js?v=0.19.0"></script>
 </body>
 </html>
