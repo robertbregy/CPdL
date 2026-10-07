@@ -145,12 +145,17 @@
     const desc=x.scale===1?'Scala standard':x.scale===2?'Versi di più alla pensione':'Versi ancora di più alla pensione';
     const main=Number.isFinite(x.netAfter)?money(x.netAfter):(Math.abs(x.delta)<.005?'Situazione attuale':`${x.delta>0?'−':'+'} ${money2(Math.abs(x.delta))} / mese`);
     const mainLabel=Number.isFinite(x.netAfter)?'Quanto riceveresti circa sul conto':'Differenza rispetto a oggi';
+    const tax=effectiveTaxRate(s);
+    const taxSaving=x.annualDelta>0?x.annualDelta*tax:0;
+    const economic=(x.annualDelta-taxSaving)/P.cpPaymentsPerYear;
+    const fiscalBlock=x.annualDelta>0?`<div class="after-tax-impact"><span>Dopo l'effetto fiscale</span><strong>≈ ${money2(Math.abs(economic))} / mese</strong><small>impatto economico stimato</small></div>`:'';
     return `<button type="button" class="scale-card ${selected?'selected':''}" data-scale="${x.scale}" aria-pressed="${selected}">
       <div class="scale-top"><h3>Scala ${x.scale}</h3><span class="scale-tag">${isCurrent?'attuale':selected?'selezionata':'confronto'}</span></div>
       <div class="scale-description">${desc}</div>
       <div class="amount-label">${mainLabel}</div>
       <div class="amount-main">${main}</div>
       ${Number.isFinite(x.netAfter)?`<span class="delta-pill ${cls}">${signed(change)} / mese</span>`:''}
+      ${fiscalBlock}
       <div class="simple-metrics">
         <div><span>Trattenuta Cassa pensioni</span><strong>${money2(x.newDeduction)}</strong></div>
         <div><span>Percentuale</span><strong>${(x.rate*100).toFixed(2)}%</strong></div>
@@ -163,13 +168,19 @@
     const x=scenarios.find(v=>v.scale===selectedScale)||scenarios[1];
     const tax=effectiveTaxRate(s);
     const saving=x.annualDelta>0?x.annualDelta*tax:0;
+    const savingMonthly=saving/12;
     const economic=(x.annualDelta-saving)/P.cpPaymentsPerYear;
     const same=Math.abs(x.delta)<.005;
     const netBlock=Number.isFinite(x.netAfter)
       ? `<div class="summary-item"><span>Netto sul conto stimato</span><strong>${money(x.netAfter)}</strong></div>`
       : `<div class="summary-item"><span>Differenza mensile stimata</span><strong>${same?'–':money2(Math.abs(x.delta))}</strong></div>`;
+    const fiscalHero=!same&&x.annualDelta>0?`<div class="fiscal-impact-hero">
+        <div><span>Dopo l'effetto fiscale</span><strong>≈ ${money2(Math.abs(economic))} / mese</strong></div>
+        <p>La trattenuta aumenta di <b>${money2(Math.abs(x.delta))} al mese</b>, ma una parte può essere recuperata fiscalmente. Risparmio fiscale indicativo: <b>${money(saving)} all'anno</b> (circa ${money2(savingMonthly)} al mese).</p>
+        <small>Stima indicativa: il risultato fiscale reale dipende dalla situazione personale.</small>
+      </div>`:'';
     $('summaryPanel').innerHTML=`<h3>${same?'Questa è la situazione di riferimento.':`${money2(Math.abs(x.delta))} ${x.delta>0?'in più':'in meno'} di trattenuta al mese.`}</h3>
-      <p>${same?'Seleziona un’altra scala per vedere la differenza.':`Con una stima fiscale semplice, l’impatto economico potrebbe essere circa ${money2(Math.abs(economic))} al mese.`}</p>
+      ${same?'<p>Seleziona un’altra scala per vedere la differenza.</p>':fiscalHero}
       <div class="summary-grid">
         ${netBlock}
         <div class="summary-item"><span>Trattenuta CP stimata</span><strong>${money2(x.newDeduction)}</strong></div>
