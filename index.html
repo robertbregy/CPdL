@@ -40,14 +40,53 @@
         </div>
       </div>
 
-      <div class="hero-demo" aria-label="Come funziona il simulatore">
-        <div class="demo-top"><span>Una decisione in tre passaggi</span><b>CPdL</b></div>
-        <div class="demo-step active"><span class="demo-num">01</span><div><strong>Quanto ricevi al mese?</strong><span>Partiamo da un dato che conosci.</span></div><span class="demo-chip">CHF</span></div>
-        <div class="demo-line"></div>
-        <div class="demo-step"><span class="demo-num">02</span><div><strong>Confronta Scala 1 · 2 · 3</strong><span>Vedi subito l'impatto mensile stimato.</span></div><span class="demo-chip">1 · 2 · 3</span></div>
-        <div class="demo-line"></div>
-        <div class="demo-step"><span class="demo-num">03</span><div><strong>Affina se ti interessa</strong><span>Fisco e previdenza, passo dopo passo.</span></div><span class="demo-chip">+</span></div>
-        <div class="demo-foot"><span class="lock-dot" aria-hidden="true"></span> I calcoli restano nel browser</div>
+      <div class="hero-workbench" aria-label="Anteprima operativa del simulatore">
+        <div class="starter-head">
+          <div>
+            <span class="starter-eyebrow">Prova subito</span>
+            <h2>Una stima immediata, senza gergo e senza login.</h2>
+          </div>
+          <span class="starter-badge"><span aria-hidden="true">●</span> Anonimo</span>
+        </div>
+
+        <label class="starter-input">
+          <span>Quanto ricevi normalmente sul conto ogni mese?</span>
+          <div class="money-box starter-money"><b>CHF</b><input id="heroNetMonthly" type="number" inputmode="decimal" min="500" max="30000" step="50" value="6000" aria-label="Quanto ricevi normalmente sul conto ogni mese" /></div>
+          <small>Inserisci il netto di un mese normale. I valori sotto si aggiornano subito.</small>
+        </label>
+
+        <div class="starter-cta-row">
+          <a class="hero-cta starter-cta" href="#simulatore">Avvia la simulazione <span aria-hidden="true">→</span></a>
+          <div class="starter-meta"><span>1 dato per iniziare</span><span>3 scale a confronto</span></div>
+        </div>
+
+        <div class="starter-preview">
+          <div class="preview-head">
+            <div>
+              <strong>Anteprima immediata</strong>
+              <span>Seleziona una scala per usarla come confronto nel simulatore.</span>
+            </div>
+            <small>Valori stimati</small>
+          </div>
+          <div class="preview-grid">
+            <button type="button" class="mini-scale" data-hero-scale="1">
+              <span class="mini-scale-top"><strong>Scala 1</strong><em>standard</em></span>
+              <span class="mini-scale-value">CHF 6'000</span>
+              <span class="mini-scale-delta">– / mese</span>
+            </button>
+            <button type="button" class="mini-scale" data-hero-scale="2">
+              <span class="mini-scale-top"><strong>Scala 2</strong><em>+2% previdenza</em></span>
+              <span class="mini-scale-value">CHF 5'900</span>
+              <span class="mini-scale-delta">− CHF 100 / mese</span>
+            </button>
+            <button type="button" class="mini-scale" data-hero-scale="3">
+              <span class="mini-scale-top"><strong>Scala 3</strong><em>+4% previdenza</em></span>
+              <span class="mini-scale-value">CHF 5'800</span>
+              <span class="mini-scale-delta">− CHF 200 / mese</span>
+            </button>
+          </div>
+          <div class="starter-foot"><span class="lock-dot" aria-hidden="true"></span> I calcoli avvengono nel browser. Nessun dato viene salvato.</div>
+        </div>
       </div>
     </section>
 
@@ -224,7 +263,7 @@
 
   <footer class="site-footer">
     <div class="shell footer-inner">
-      <div><strong>CPdL · Simulatore scala contributiva</strong><span>Prototipo dimostrativo · ottobre 2026</span></div>
+      <div><strong>CPdL · Simulatore scala contributiva</strong><span>Prototipo dimostrativo · ottobre 2026 · v0.4</span></div>
       <p>Le cifre non costituiscono una promessa di prestazione né una consulenza fiscale. Le componenti non ancora validate sono chiaramente indicate come stime.</p>
     </div>
   </footer>

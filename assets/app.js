@@ -154,6 +154,26 @@
     </button>`;
   }
 
+  function renderHeroStarter(s, scenarios) {
+    const heroInput = $('heroNetMonthly');
+    if (heroInput && String(s.netMonthly) !== heroInput.value) heroInput.value = s.netMonthly;
+
+    document.querySelectorAll('[data-hero-scale]').forEach((btn) => {
+      const scale = Number(btn.dataset.heroScale);
+      const x = scenarios.find(v => v.scale === scale);
+      if (!x) return;
+      const valueEl = btn.querySelector('.mini-scale-value');
+      const deltaEl = btn.querySelector('.mini-scale-delta');
+      if (valueEl) valueEl.textContent = money(x.netAfter);
+      if (deltaEl) deltaEl.textContent = `${signed(x.monthlySalaryDelta, true)} / mese`;
+      btn.classList.toggle('current', scale === s.currentScale);
+      btn.classList.toggle('selected', scale === selectedScale);
+      const takeHomeDelta = -x.monthlySalaryDelta;
+      btn.classList.toggle('delta-up', Math.abs(takeHomeDelta) >= 0.5 && takeHomeDelta > 0);
+      btn.classList.toggle('delta-down', Math.abs(takeHomeDelta) >= 0.5 && takeHomeDelta < 0);
+    });
+  }
+
   function renderPrecision(s) {
     let level = 1;
     if (s.ageKnown || s.grossInput > 0 || s.insuredInput > 0 || !s.currentUnknown) level = 2;
@@ -239,6 +259,7 @@
     $('spouseWrap').hidden = $('marital').value !== 'married';
     $('assumptionBanner').style.display = (s.grossInput > 0 && s.insuredInput > 0) ? 'none' : 'flex';
 
+    renderHeroStarter(s, scenarios);
     renderPrecision(s);
     renderProjection(s, scenarios);
     renderDecision(s, scenarios);
@@ -251,6 +272,26 @@
   });
 
   document.querySelectorAll('details').forEach(el => el.addEventListener('toggle', render));
+  const heroNetInput = $('heroNetMonthly');
+  if (heroNetInput) {
+    heroNetInput.addEventListener('input', () => {
+      $('netMonthly').value = heroNetInput.value;
+      render();
+    });
+    heroNetInput.addEventListener('change', () => {
+      $('netMonthly').value = heroNetInput.value;
+      render();
+    });
+  }
+
+  document.querySelectorAll('[data-hero-scale]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      selectedScale = Number(btn.dataset.heroScale);
+      render();
+      const sim = $('simulatore');
+      if (sim && window.innerWidth <= 920) sim.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
 
   $('scaleGrid').addEventListener('click', (event) => {
     const card = event.target.closest('[data-scale]');

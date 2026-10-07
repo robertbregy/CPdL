@@ -1,4 +1,4 @@
-# CPdL · Simulatore scala contributiva — prototipo v0.3
+# CPdL · Simulatore scala contributiva — prototipo v0.4 v0.4
 
 Prototipo statico per GitHub Pages. Nessuna autenticazione, database o backend: i calcoli avvengono localmente nel browser.
 
@@ -7,7 +7,7 @@ Prototipo statico per GitHub Pages. Nessuna autenticazione, database o backend: 
 2. Mantieni GitHub Pages su **Deploy from a branch**, branch `main`, cartella `/(root)`.
 3. Attendi il deploy.
 
-## Novità grafiche v0.3
+## Novità grafiche v0.4
 - identità visiva più vicina a un servizio previdenziale istituzionale;
 - hero più editoriale e meno "landing page generica";
 - percorso in 4 passaggi sempre leggibile;
