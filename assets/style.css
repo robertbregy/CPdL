@@ -126,3 +126,40 @@
 .account-estimate>strong{display:block;font-size:24px;line-height:1.05;letter-spacing:-.035em;margin-top:4px}
 .scale-card .amount-label,.scale-card .amount-main,.scale-card .delta-pill,.scale-card .after-tax-impact{display:none!important}
 @media(max-width:560px){.card-cost-row>strong{font-size:20px}.account-estimate>strong{font-size:22px}}
+
+
+/* v0.16 - clean, equal hierarchy for gross withholding and after-tax impact */
+.card-cost-pair{display:grid;grid-template-columns:1fr;gap:8px;margin-top:18px}
+.card-cost-row{border:1px solid var(--line)!important;border-radius:14px!important;padding:13px 14px!important;background:#f8fafc!important;color:var(--ink)!important}
+.card-cost-row>span{display:block!important;font-size:10px!important;line-height:1.25!important;text-transform:uppercase!important;letter-spacing:.075em!important;color:var(--muted)!important;font-weight:900!important}
+.card-cost-row>strong{display:block!important;font-size:22px!important;line-height:1.05!important;letter-spacing:-.035em!important;color:var(--ink)!important;font-weight:950!important;margin-top:6px!important}
+.card-cost-row>strong em{font-style:normal!important;font-size:12px!important;letter-spacing:0!important;color:var(--muted)!important;font-weight:800!important;margin-left:4px!important}
+.card-tax-note{font-size:10px;color:var(--muted);line-height:1.35;padding:2px 2px 0}
+.card-tax-note strong{color:var(--ink2);font-weight:850}
+/* remove any semantic green advantage: the two decision figures must look equal */
+.card-cost-after,.card-cost-gross{background:#f8fafc!important;border-color:var(--line)!important}
+.card-cost-after>strong,.card-cost-gross>strong{color:var(--ink)!important}
+.card-cost-after>span,.card-cost-gross>span{color:var(--muted)!important}
+
+.summary-panel{background:#fff!important;color:var(--ink)!important;border:1px solid var(--line)!important;box-shadow:0 10px 28px rgba(20,54,83,.06)!important}
+.summary-secondary-title{color:var(--blue)!important;font-size:11px!important;margin-bottom:14px!important}
+.fiscal-impact-main.fiscal-balanced{background:#f8fafc!important;color:var(--ink)!important;border:1px solid var(--line)!important;box-shadow:none!important;padding:20px!important;margin:0 0 16px!important}
+.fiscal-balanced-intro{color:var(--ink2)!important;font-size:11px!important;margin-bottom:12px!important}
+.fiscal-balanced-grid{display:grid!important;grid-template-columns:1fr 1fr!important;gap:12px!important}
+.fiscal-equal-card,.fiscal-equal-after{background:#fff!important;border:1px solid var(--line)!important;border-radius:16px!important;padding:18px!important;color:var(--ink)!important}
+.fiscal-equal-card span,.fiscal-equal-after span{display:block!important;color:var(--muted)!important;font-size:12px!important;font-weight:900!important;line-height:1.3!important;min-height:32px!important;text-transform:uppercase!important;letter-spacing:.06em!important}
+.fiscal-equal-card strong,.fiscal-equal-after strong{display:inline-block!important;color:var(--ink)!important;font-size:clamp(31px,3.4vw,42px)!important;line-height:1!important;letter-spacing:-.045em!important;font-weight:950!important;margin-top:8px!important}
+.fiscal-equal-card em,.fiscal-equal-after em{font-style:normal!important;color:var(--muted)!important;font-size:14px!important;font-weight:800!important;margin-left:5px!important}
+.fiscal-equation{display:none!important}
+.balanced-explanation{margin:14px 0 0!important;color:var(--ink2)!important;font-size:13px!important;line-height:1.45!important}
+.balanced-explanation strong{color:var(--ink)!important}
+.fiscal-impact-main .fiscal-disclaimer{display:block!important;color:var(--muted)!important;font-size:10px!important;line-height:1.4!important;margin-top:7px!important}
+.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.summary-item{background:#f8fafc!important;border:1px solid var(--line)!important;color:var(--ink)!important}
+.summary-item span{color:var(--muted)!important}
+.summary-item strong{color:var(--ink)!important}
+@media(max-width:640px){
+  .fiscal-balanced-grid{grid-template-columns:1fr!important}
+  .fiscal-equal-card span,.fiscal-equal-after span{min-height:0!important}
+  .fiscal-equal-card strong,.fiscal-equal-after strong{font-size:34px!important}
+}

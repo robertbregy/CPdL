@@ -150,14 +150,15 @@
     const economic=(x.annualDelta-taxSaving)/P.cpPaymentsPerYear;
     const savingMonthlyCard=taxSaving/P.cpPaymentsPerYear;
     const comparePair=x.annualDelta>0?`<div class="card-cost-pair">
-        <div class="card-cost-row card-cost-gross">
+        <div class="card-cost-row">
           <span>Trattenuta in più sullo stipendio</span>
           <strong>${money2(Math.abs(x.delta))}<em>/ mese</em></strong>
         </div>
-        <div class="card-cost-row card-cost-after">
+        <div class="card-cost-row">
           <span>Impatto stimato dopo le imposte</span>
           <strong>≈ ${money2(Math.abs(economic))}<em>/ mese</em></strong>
         </div>
+        <div class="card-tax-note">Risparmio d'imposta stimato: <strong>${money2(savingMonthlyCard)} / mese</strong></div>
       </div>`:'';
     return `<button type="button" class="scale-card ${selected?'selected':''}" data-scale="${x.scale}" aria-pressed="${selected}">
       <div class="scale-top"><h3>Scala ${x.scale}</h3><span class="scale-tag">${isCurrent?'attuale':selected?'selezionata':'confronto'}</span></div>
@@ -186,24 +187,21 @@
       ? `<div class="summary-item"><span>Netto sul conto stimato</span><strong>${money(x.netAfter)}</strong></div>`
       : `<div class="summary-item"><span>Differenza mensile stimata</span><strong>${same?'–':money2(Math.abs(x.delta))}</strong></div>`;
     const fiscalHero=!same&&x.annualDelta>0?`<div class="fiscal-impact-hero fiscal-impact-main fiscal-balanced">
-        <div class="fiscal-balanced-intro">Due numeri da guardare insieme</div>
+        <div class="fiscal-balanced-intro">I due numeri chiave</div>
         <div class="fiscal-balanced-grid">
           <div class="fiscal-equal-card">
-            <span>Trattenuta aggiuntiva</span>
+            <span>Trattenuta in più sullo stipendio</span>
             <strong>${money2(Math.abs(x.delta))}</strong>
             <em>/ mese</em>
-            <small>quanto verrebbe trattenuto in più dallo stipendio</small>
           </div>
-          <div class="fiscal-equal-card fiscal-equal-after">
-            <span>Dopo il risparmio d'imposta stimato</span>
+          <div class="fiscal-equal-card">
+            <span>Impatto stimato dopo le imposte</span>
             <strong>≈ ${money2(Math.abs(economic))}</strong>
             <em>/ mese</em>
-            <small>impatto economico mensile approssimativo</small>
           </div>
         </div>
-        <div class="fiscal-equation"><strong>${money2(Math.abs(x.delta))}</strong><span>trattenuta in più</span><b>−</b><strong>${money2(savingMonthly)}</strong><span>risparmio d'imposta stimato</span><b>=</b><strong>≈ ${money2(Math.abs(economic))}</strong><span>impatto mensile stimato</span></div>
-        <p>Il contributo aggiuntivo riduce il reddito imponibile. Per questo l'impatto economico può risultare inferiore alla trattenuta aggiuntiva.</p>
-        <small class="fiscal-disclaimer">Calcolo approssimativo: il risparmio d'imposta effettivo dipende dalla situazione fiscale personale.</small>
+        <p class="balanced-explanation">Il secondo importo tiene conto di un risparmio d'imposta stimato di <strong>${money2(savingMonthly)} / mese</strong>.</p>
+        <small class="fiscal-disclaimer">Calcolo approssimativo: l'effetto effettivo sulle imposte dipende dalla situazione fiscale personale.</small>
       </div>`:'';
     $('summaryPanel').innerHTML=`${same?`<h3>Questa è la situazione di riferimento.</h3><p>Seleziona un’altra scala per vedere la differenza.</p>`:`<div class="summary-secondary-title">Scala ${x.scale} · confronto con la situazione attuale</div>${fiscalHero}`}
       <div class="summary-grid">
