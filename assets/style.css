@@ -58,3 +58,27 @@
 .fiscal-impact-main .fiscal-disclaimer{color:#c2d7e8!important;font-size:11px!important}
 .summary-secondary-title{font-size:12px!important;margin-bottom:14px!important}
 @media(max-width:560px){.fiscal-impact-main{padding:18px!important}.fiscal-message>span{font-size:14px!important}.fiscal-message>strong{font-size:26px!important}.fiscal-message>strong b{white-space:normal!important}.fiscal-impact-main>p{font-size:14px!important}}
+
+
+/* v0.13 - tax-adjusted impact is visually dominant over gross withholding */
+.fiscal-impact-main{padding:24px 26px!important}
+.fiscal-gross-line{display:flex!important;align-items:baseline!important;justify-content:space-between!important;gap:18px!important;padding:0 0 16px!important;border-bottom:1px solid rgba(255,255,255,.18)!important}
+.fiscal-gross-line span{color:#cfe0f0!important;font-size:13px!important;font-weight:750!important}
+.fiscal-gross-line strong{color:#fff!important;font-size:20px!important;font-weight:850!important;white-space:nowrap!important}
+.fiscal-primary-message{padding:22px 0 4px!important}
+.fiscal-primary-message>span{display:block!important;color:#d9eaf8!important;font-size:17px!important;line-height:1.35!important;font-weight:800!important;margin-bottom:8px!important}
+.fiscal-primary-message>strong{display:block!important;color:#fff!important;font-size:clamp(24px,3vw,36px)!important;line-height:1.12!important;letter-spacing:-.03em!important;font-weight:850!important}
+.fiscal-primary-message>b{display:block!important;color:#dff7ec!important;font-size:clamp(44px,6vw,68px)!important;line-height:.98!important;letter-spacing:-.055em!important;font-weight:950!important;margin-top:12px!important}
+.fiscal-primary-message>b em{font-style:normal!important;font-size:.38em!important;letter-spacing:-.01em!important;color:#d2e7f5!important;font-weight:800!important}
+.fiscal-impact-main .fiscal-breakdown{margin-top:22px!important}
+.fiscal-impact-main>p{font-size:16px!important;line-height:1.55!important;margin-top:18px!important}
+.fiscal-impact-main .fiscal-disclaimer{font-size:12px!important;line-height:1.45!important;margin-top:10px!important}
+@media(max-width:560px){
+  .fiscal-impact-main{padding:20px!important}
+  .fiscal-gross-line{align-items:flex-start!important;flex-direction:column!important;gap:4px!important}
+  .fiscal-gross-line strong{font-size:18px!important}
+  .fiscal-primary-message>span{font-size:15px!important}
+  .fiscal-primary-message>strong{font-size:25px!important}
+  .fiscal-primary-message>b{font-size:46px!important}
+  .fiscal-impact-main>p{font-size:14px!important}
+}
