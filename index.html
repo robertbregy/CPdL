@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b4f9c">
-  <meta name="description" content="Simulatore orientativo CPdL: parti da quanto ricevi sul conto e, se conosci altri dati, rendi la stima più precisa.">
+  <meta name="description" content="Simulatore orientativo CPdL per confrontare le scale contributive partendo dalla busta paga oppure da quanto ricevi sul conto.">
   <title>CPdL · Quanto cambia sullo stipendio?</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/style.css?v=0.8.0">
+  <link rel="stylesheet" href="assets/style.css?v=0.9.0">
 </head>
 <body>
   <header class="site-header">
@@ -26,22 +26,115 @@
   <main id="top">
     <section class="hero shell">
       <span class="eyebrow">Scala contributiva 2027</span>
-      <h1>Quanto cambia davvero<br>quello che ricevi ogni mese?</h1>
-      <p>Parti da un dato semplice: <strong>quanto ti arriva sul conto</strong>. Se conosci anche la trattenuta della Cassa pensioni, la percentuale o hai la busta paga, puoi rendere il risultato più preciso. Se non li sai, puoi comunque continuare.</p>
+      <h1>Quanto cambierebbe il tuo stipendio?</h1>
+      <p>Puoi iniziare in due modi. Se hai la busta paga ottieni una stima più precisa. Se non ce l'hai, basta sapere <strong>quanto ti arriva sul conto</strong>.</p>
       <div class="hero-points" aria-label="Caratteristiche del simulatore">
         <span>✓ Nessun login</span>
         <span>✓ Nessun dato salvato</span>
-        <span>✓ Puoi sempre scegliere «Non lo so»</span>
+        <span>✓ Puoi cambiare metodo in qualsiasi momento</span>
       </div>
     </section>
 
-    <section class="shell easy-card" aria-labelledby="start-title">
+    <section class="shell chooser-card" aria-labelledby="choose-title">
+      <div class="chooser-head">
+        <span class="eyebrow">Come vuoi iniziare?</span>
+        <h2 id="choose-title">Scegli la strada più comoda per te</h2>
+        <p>Non c'è una scelta giusta o sbagliata. Il simulatore usa quello che hai a disposizione.</p>
+      </div>
+
+      <div class="start-choice-grid">
+        <button type="button" class="start-choice" id="choosePayslip">
+          <span class="choice-icon" aria-hidden="true">▤</span>
+          <span class="choice-copy">
+            <strong>Ho la busta paga</strong>
+            <span>Copia due valori dalla riga «Contributo ordinario CP».</span>
+            <em>Più preciso · circa 1 minuto</em>
+          </span>
+          <span class="choice-arrow" aria-hidden="true">→</span>
+        </button>
+
+        <button type="button" class="start-choice" id="chooseBank">
+          <span class="choice-icon" aria-hidden="true">CHF</span>
+          <span class="choice-copy">
+            <strong>Non ho la busta paga</strong>
+            <span>Parti da quanto ricevi normalmente sul conto.</span>
+            <em>Più semplice · circa 30 secondi</em>
+          </span>
+          <span class="choice-arrow" aria-hidden="true">→</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="shell start-panel" id="payslipStart" hidden aria-labelledby="payslip-start-title">
+      <button type="button" class="back-button" data-back-start>← Cambia metodo</button>
       <div class="step-head">
         <div class="step-badge">1</div>
         <div>
-          <span class="step-kicker">Prima stima</span>
-          <h2 id="start-title">Partiamo da quello che sai già</h2>
-          <p>Non serve conoscere termini previdenziali. Bastano due informazioni semplici.</p>
+          <span class="step-kicker">Con la busta paga</span>
+          <h2 id="payslip-start-title">Cerca una sola riga</h2>
+          <p>Nella busta paga cerca <strong>«Contributo ordinario CP»</strong>. Copia almeno due dei tre valori evidenziati qui sotto.</p>
+        </div>
+      </div>
+
+      <div class="payslip-demo large" aria-label="Esempio schematico della riga Contributo ordinario CP">
+        <div class="definition"><span>Definizione</span><strong>Contributo ordinario CP</strong></div>
+        <div><span>Base</span><strong>15'850.00</strong></div>
+        <div><span>Numero</span><strong>10.7500 %</strong></div>
+        <div><span>Importo</span><strong>1'703.90</strong></div>
+      </div>
+      <p class="microcopy">I numeri sopra sono solo un esempio per riconoscere la riga. Usa i tuoi valori.</p>
+
+      <div class="form-grid cols-3">
+        <label class="field">
+          <span>Base <em>se la vedi</em></span>
+          <div class="money-input"><b>CHF</b><input id="startCpBase" type="number" inputmode="decimal" min="0" step="0.05" placeholder="es. 5'000"></div>
+          <small>Colonna «Base».</small>
+        </label>
+        <label class="field">
+          <span>Percentuale <em>se la vedi</em></span>
+          <div class="money-input suffix"><input id="startCpRate" type="number" inputmode="decimal" min="1" max="20" step="0.05" placeholder="es. 10.75"><b>%</b></div>
+          <small>Colonna «Numero».</small>
+        </label>
+        <label class="field">
+          <span>Importo trattenuto <em>se lo vedi</em></span>
+          <div class="money-input"><b>CHF</b><input id="startCpDeduction" type="number" inputmode="decimal" min="0" step="0.05" placeholder="es. 500"></div>
+          <small>Colonna «Importo».</small>
+        </label>
+      </div>
+
+      <div class="simple-row">
+        <label class="field compact-field">
+          <span>Quanti anni hai?</span>
+          <input id="startPayslipAge" type="number" inputmode="numeric" min="18" max="70" placeholder="es. 46">
+          <small>Ci aiuta a controllare la fascia contributiva.</small>
+        </label>
+        <label class="field compact-field">
+          <span>Quanto ricevi sul conto? <em>facoltativo</em></span>
+          <div class="money-input"><b>CHF</b><input id="startPayslipNet" type="number" inputmode="decimal" min="500" max="30000" step="50" placeholder="se vuoi"></div>
+          <small>Serve solo per mostrarti il nuovo importo sul conto.</small>
+        </label>
+      </div>
+
+      <div class="helper-box">
+        <strong>Non trovi tutti i dati?</strong>
+        <span>Bastano almeno due valori tra Base, Percentuale e Importo. Se non riesci a trovarli, puoi passare alla stima dal conto.</span>
+      </div>
+
+      <div class="primary-actions">
+        <button type="button" class="primary-button" id="startPayslipButton">Calcola il confronto</button>
+        <button type="button" class="text-button" id="switchToBank">Non trovo questi dati</button>
+      </div>
+      <div class="form-message" id="payslipStartMessage" aria-live="polite"></div>
+    </section>
+
+    <section class="shell start-panel" id="bankStart" hidden aria-labelledby="bank-start-title">
+      <button type="button" class="back-button" data-back-start>← Cambia metodo</button>
+      <div class="step-head">
+        <div class="step-badge">1</div>
+        <div>
+          <span class="step-kicker">Senza busta paga</span>
+          <h2 id="bank-start-title">Parti da quello che sai</h2>
+          <p>Niente termini tecnici. Ti servono soltanto quanto ricevi sul conto e la tua età.</p>
         </div>
       </div>
 
@@ -49,13 +142,13 @@
         <label class="field big-field">
           <span>Quanto ricevi normalmente sul conto in un mese?</span>
           <div class="money-input"><b>CHF</b><input id="netMonthly" type="number" inputmode="decimal" min="500" max="30000" step="50" placeholder="es. 5'500" aria-describedby="netHelp"></div>
-          <small id="netHelp">Inserisci un mese normale, senza tredicesima, arretrati o rimborsi eccezionali.</small>
+          <small id="netHelp">Usa un mese normale, senza tredicesima, arretrati o rimborsi eccezionali.</small>
         </label>
 
         <label class="field big-field">
           <span>Quanti anni hai?</span>
           <input id="age" type="number" inputmode="numeric" min="18" max="70" placeholder="es. 46">
-          <small>Serve soltanto per capire quale fascia contributiva usare.</small>
+          <small>Serve per capire quale fascia contributiva usare.</small>
         </label>
 
         <fieldset class="choice-field">
@@ -70,21 +163,21 @@
       </div>
 
       <div class="primary-actions">
-        <button type="button" class="primary-button" id="startButton">Vedi una prima stima</button>
-        <span class="action-help">Non devi avere la busta paga per iniziare.</span>
+        <button type="button" class="primary-button" id="startBankButton">Vedi una prima stima</button>
+        <span class="action-help">Potrai aggiungere la busta paga più tardi, se la recuperi.</span>
       </div>
-      <div class="form-message" id="startMessage" aria-live="polite"></div>
+      <div class="form-message" id="bankStartMessage" aria-live="polite"></div>
     </section>
 
     <section class="shell results-section" id="resultsSection" hidden aria-labelledby="results-title">
       <div class="section-head">
         <div>
-          <span class="eyebrow">Prima risposta</span>
+          <span class="eyebrow">Il tuo confronto</span>
           <h2 id="results-title">Quanto potrebbe cambiare ogni mese</h2>
-          <p id="resultIntro">Questa è una stima orientativa. Puoi renderla più precisa nel passo successivo.</p>
+          <p id="resultIntro">Il risultato si aggiorna con i dati che inserisci.</p>
         </div>
         <div class="precision-box" aria-live="polite">
-          <span>Precisione</span>
+          <span>Qualità della stima</span>
           <div class="precision-bars"><i class="on"></i><i></i><i></i></div>
           <strong id="precisionLabel">Stima iniziale</strong>
         </div>
@@ -92,68 +185,65 @@
 
       <div class="plain-note" id="assumptionNote">
         <span aria-hidden="true">i</span>
-        <p><strong>Non conosciamo ancora la tua trattenuta reale.</strong> Per questa prima stima ricostruiamo indicativamente la situazione a partire dal netto e dall'età. Non è un conteggio salariale ufficiale.</p>
+        <p id="assumptionText"><strong>Stima orientativa.</strong> Puoi renderla più precisa aggiungendo i dati della busta paga.</p>
       </div>
 
       <div class="scale-explainer">
-        <strong>Cosa sono le tre scale?</strong>
-        <span><b>Scala 1</b> = standard</span>
-        <span><b>Scala 2</b> = versi di più alla pensione</span>
-        <span><b>Scala 3</b> = versi ancora di più alla pensione</span>
+        <strong>Le tre scale, in parole semplici</strong>
+        <span><b>Scala 1</b> · standard</span>
+        <span><b>Scala 2</b> · versi di più alla pensione</span>
+        <span><b>Scala 3</b> · versi ancora di più alla pensione</span>
       </div>
 
       <div class="scale-grid" id="scaleGrid" aria-live="polite"></div>
       <div class="summary-panel" id="summaryPanel" aria-live="polite"></div>
 
-      <section class="refine-card" aria-labelledby="refine-title">
+      <section class="refine-card" id="refineSection" aria-labelledby="refine-title">
         <div class="step-head compact">
           <div class="step-badge">2</div>
           <div>
             <span class="step-kicker">Facoltativo</span>
-            <h2 id="refine-title">Vuoi rendere il risultato più preciso?</h2>
-            <p>Aggiungi solo quello che conosci. Puoi anche non inserire nulla e continuare.</p>
+            <h2 id="refine-title">Vuoi migliorare ancora il risultato?</h2>
+            <p id="refineIntro">Aggiungi solo ciò che hai a disposizione.</p>
           </div>
         </div>
 
-        <div class="refine-choice">
-          <button type="button" class="choice-button" id="havePayslipButton"><strong>Ho la busta paga</strong><span>Ti mostriamo esattamente cosa copiare.</span></button>
-          <button type="button" class="choice-button" id="noPayslipButton"><strong>Non ho la busta paga</strong><span>Puoi inserire solo i dati che ricordi, oppure saltare.</span></button>
+        <div id="refineFromBank">
+          <div class="refine-prompt">
+            <div><strong>Hai recuperato la busta paga?</strong><span>Puoi aggiungere i dati della riga «Contributo ordinario CP» senza ricominciare.</span></div>
+            <button type="button" class="secondary-button" id="openRefinePayslip">Aggiungi busta paga</button>
+          </div>
         </div>
 
-        <div class="refine-panel" id="payslipPanel" hidden>
-          <div class="help-title"><span aria-hidden="true">1</span><div><strong>Cerca la riga «Contributo ordinario CP»</strong><small>Sulla busta paga la riga ha le colonne Base, Numero e Importo.</small></div></div>
+        <div id="refineFromPayslip" hidden>
+          <div class="refine-prompt">
+            <div><strong>Vuoi vedere anche quanto ti arriverebbe sul conto?</strong><span>Inserisci il netto mensile, se lo conosci. Il confronto della trattenuta funziona anche senza.</span></div>
+          </div>
+          <label class="field compact-field max-field">
+            <span>Quanto ricevi normalmente sul conto? <em>facoltativo</em></span>
+            <div class="money-input"><b>CHF</b><input id="refineNet" type="number" inputmode="decimal" min="500" max="30000" step="50" placeholder="es. 5'500"></div>
+          </label>
+        </div>
+
+        <div class="refine-panel" id="payslipRefinePanel" hidden>
+          <div class="help-title"><span aria-hidden="true">1</span><div><strong>Cerca «Contributo ordinario CP»</strong><small>Inserisci almeno due valori tra Base, Percentuale e Importo.</small></div></div>
           <div class="payslip-demo" aria-label="Esempio schematico della riga della Cassa pensioni">
-            <div><span>Definizione</span><strong>Contributo ordinario CP</strong></div>
+            <div class="definition"><span>Definizione</span><strong>Contributo ordinario CP</strong></div>
             <div><span>Base</span><strong>15'850.00</strong></div>
             <div><span>Numero</span><strong>10.7500 %</strong></div>
             <div><span>Importo</span><strong>1'703.90</strong></div>
           </div>
-          <p class="microcopy">I numeri sopra sono solo un esempio per farti riconoscere la riga. Inserisci i tuoi valori qui sotto.</p>
-
-          <div class="optional-grid">
-            <label class="field"><span>Base <em>se la vedi</em></span><div class="money-input"><b>CHF</b><input id="cpBase" type="number" inputmode="decimal" min="0" step="0.05" placeholder="es. 5'000"></div><small>È il numero sotto la colonna «Base».</small></label>
-            <label class="field"><span>Percentuale <em>se la vedi</em></span><div class="money-input suffix"><input id="cpRate" type="number" inputmode="decimal" min="1" max="20" step="0.05" placeholder="es. 10.75"><b>%</b></div><small>È il numero nella colonna «Numero».</small></label>
-            <label class="field"><span>Importo trattenuto <em>se la vedi</em></span><div class="money-input"><b>CHF</b><input id="cpDeduction" type="number" inputmode="decimal" min="0" step="0.05" placeholder="es. 500"></div><small>È l'importo della stessa riga. Se non lo inserisci, proviamo a ricavarlo dagli altri dati.</small></label>
+          <div class="form-grid cols-3">
+            <label class="field"><span>Base</span><div class="money-input"><b>CHF</b><input id="cpBase" type="number" inputmode="decimal" min="0" step="0.05"></div></label>
+            <label class="field"><span>Percentuale</span><div class="money-input suffix"><input id="cpRate" type="number" inputmode="decimal" min="1" max="20" step="0.05"><b>%</b></div></label>
+            <label class="field"><span>Importo trattenuto</span><div class="money-input"><b>CHF</b><input id="cpDeduction" type="number" inputmode="decimal" min="0" step="0.05"></div></label>
           </div>
-        </div>
-
-        <div class="refine-panel" id="memoryPanel" hidden>
-          <p class="panel-intro">Non serve ricordare tutto. Se conosci uno di questi dati, inseriscilo; altrimenti lascia vuoto.</p>
-          <div class="optional-grid two">
-            <label class="field"><span>Quanto ti trattengono ogni mese per la Cassa pensioni? <em>facoltativo</em></span><div class="money-input"><b>CHF</b><input id="knownDeduction" type="number" inputmode="decimal" min="0" step="0.05" placeholder="se lo sai"></div></label>
-            <label class="field"><span>Conosci la percentuale? <em>facoltativo</em></span><div class="money-input suffix"><input id="knownRate" type="number" inputmode="decimal" min="1" max="20" step="0.05" placeholder="se la sai"><b>%</b></div></label>
+          <div class="primary-actions small-actions">
+            <button type="button" class="secondary-button" id="applyRefineButton">Aggiorna il risultato</button>
+            <button type="button" class="text-button" id="cancelRefineButton">Annulla</button>
           </div>
-          <details class="simple-details">
-            <summary>Conosco anche la mia scala attuale</summary>
-            <label class="field inline-field"><span>Scala attuale</span><select id="knownScale"><option value="unknown">Non lo so</option><option value="1">Scala 1</option><option value="2">Scala 2</option><option value="3">Scala 3</option></select></label>
-          </details>
+          <div class="validation-note" id="refineMessage" aria-live="polite"></div>
         </div>
-
-        <div class="refine-footer">
-          <button type="button" class="secondary-button" id="applyRefineButton">Aggiorna la stima</button>
-          <button type="button" class="text-button" id="skipRefineButton">Continua senza aggiungere dati</button>
-        </div>
-        <div class="validation-note" id="refineMessage" aria-live="polite"></div>
       </section>
 
       <section class="tax-card" id="taxSection" aria-labelledby="tax-title">
@@ -162,7 +252,7 @@
           <div>
             <span class="step-kicker">Facoltativo</span>
             <h2 id="tax-title">Vuoi vedere anche l'effetto sulle tasse?</h2>
-            <p>Possiamo fare una stima semplice. Non sostituisce un calcolo fiscale ufficiale.</p>
+            <p>Facciamo una stima semplice dell'ordine di grandezza. Non è un calcolo fiscale ufficiale.</p>
           </div>
         </div>
         <div class="tax-summary">
@@ -170,7 +260,7 @@
           <button type="button" class="secondary-button" id="taxMoreButton">Rendi la stima fiscale più precisa</button>
         </div>
         <div class="tax-detail" id="taxDetail" hidden>
-          <div class="optional-grid two">
+          <div class="form-grid cols-2">
             <label class="field"><span>Comune di domicilio</span><select id="municipality"><option value="lugano">Lugano</option><option value="other">Altro Comune ticinese</option><option value="outside">Fuori Ticino</option></select></label>
             <label class="field"><span>Stato civile</span><select id="marital"><option value="single">Celibe / nubile / separato</option><option value="married">Coniugato/a</option></select></label>
             <label class="field"><span>Figli a carico</span><select id="children"><option value="0">Nessuno</option><option value="1">1</option><option value="2">2</option><option value="3">3 o più</option></select></label>
@@ -185,7 +275,7 @@
         <div>
           <span class="eyebrow light">Per la pensione futura</span>
           <h2 id="mypension-title">Vuoi sapere cosa cambia davvero sulla tua pensione?</h2>
-          <p>Questo simulatore serve soprattutto a capire l'effetto mensile sullo stipendio. Per simulare le prestazioni future con i tuoi dati previdenziali reali usa <strong>MyPension</strong>.</p>
+          <p>Qui capisci soprattutto l'effetto sullo stipendio. Per simulare le prestazioni future con i tuoi dati previdenziali reali usa <strong>MyPension</strong>.</p>
         </div>
         <a class="mypension-button" href="https://mypension.aon.ch/SSEmployeelugano/PROD/SFY100001B" target="_blank" rel="noopener">Apri MyPension <span aria-hidden="true">↗</span></a>
       </section>
@@ -193,22 +283,25 @@
       <details class="technical-notes">
         <summary>Informazioni tecniche e limiti della simulazione</summary>
         <div>
-          <p>La prima stima parte dal netto e ricostruisce in modo indicativo la base previdenziale usando i parametri disponibili per il 2026. Se inserisci dati reali della busta paga o una trattenuta conosciuta, la stima viene aggiornata.</p>
+          <p>Se parti dal conto, la prima stima ricostruisce indicativamente la situazione usando i parametri disponibili per il 2026. Se parti dalla busta paga e inserisci almeno due dati della riga CP, il calcolo della trattenuta è molto più preciso.</p>
           <p>I parametri 2027 possono cambiare. Il risultato non costituisce una conferma salariale, fiscale o previdenziale. Per la simulazione delle prestazioni future fa stato MyPension.</p>
         </div>
       </details>
 
-      <div class="bottom-actions"><button type="button" class="ghost-button" id="resetButton">Ricomincia</button></div>
+      <div class="bottom-actions">
+        <button type="button" class="ghost-button" id="changeMethodButton">Cambia metodo</button>
+        <button type="button" class="ghost-button" id="resetButton">Ricomincia da zero</button>
+      </div>
     </section>
   </main>
 
   <footer class="site-footer">
     <div class="shell footer-inner">
-      <div><strong>CPdL · Simulatore orientativo</strong><span>Prototipo v0.8 · ottobre 2026</span></div>
+      <div><strong>CPdL · Simulatore orientativo</strong><span>Prototipo v0.9 · ottobre 2026</span></div>
       <p>I dati inseriti restano nel browser e non vengono trasmessi o salvati.</p>
     </div>
   </footer>
 
-  <script src="assets/app.js?v=0.8.0"></script>
+  <script src="assets/app.js?v=0.9.0"></script>
 </body>
 </html>

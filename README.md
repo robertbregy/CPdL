@@ -1,15 +1,21 @@
-# CPdL · Simulatore orientativo v0.8
+# CPdL · Simulatore scala contributiva — v0.9
 
-Prototipo statico per GitHub Pages. Nessun backend, nessun login e nessun dato salvato.
+Prototipo statico per GitHub Pages. Tutti i calcoli avvengono localmente nel browser.
 
-## Logica UX
-- ingresso semplice da netto bancario + età;
-- tredicesima con opzione «Non lo so»;
-- risultati immediati ma chiaramente marcati come stima;
-- affinamento facoltativo con busta paga oppure con dati ricordati;
-- trattenuta, percentuale, base e scala non sono mai obbligatorie;
-- linguaggio semplificato e controlli grandi per utenti poco digitalizzati;
-- MyPension resta lo strumento di riferimento per le prestazioni future.
+## Novità v0.9
+
+- Due percorsi di ingresso equivalenti: **Ho la busta paga** / **Non ho la busta paga**.
+- Il percorso busta paga richiede almeno due valori tra Base, Percentuale e Importo della riga «Contributo ordinario CP» e l'età.
+- Il percorso senza busta paga parte da netto mensile + età + informazione sulla tredicesima.
+- I due percorsi confluiscono nello stesso confronto Scala 1/2/3.
+- Chi parte dal conto può aggiungere la busta paga più tardi senza ricominciare.
+- Chi parte dalla busta paga può aggiungere il netto mensile per vedere anche il nuovo importo stimato sul conto.
+- Fiscalità indicativa separata e collegamento a MyPension per le prestazioni future.
 
 ## Pubblicazione
-Caricare `index.html`, `assets/`, `.nojekyll` e questo README nella root del repository GitHub Pages.
+
+Carica `index.html`, `assets/`, `.nojekyll` e `README.md` nella root del repository GitHub Pages.
+
+## Attenzione
+
+I parametri 2027 possono cambiare. Il prototipo non costituisce un conteggio salariale, fiscale o previdenziale ufficiale.
