@@ -1,8 +1,8 @@
-# CPdL · Simulatore scala contributiva — v0.13
+# CPdL · Simulatore scala contributiva — v0.14
 
 Prototipo statico per GitHub Pages. Tutti i calcoli avvengono localmente nel browser.
 
-## Novità v0.13
+## Novità v0.14
 
 - Due percorsi di ingresso equivalenti: **Ho la busta paga** / **Non ho la busta paga**.
 - Il percorso busta paga richiede almeno due valori tra Base, Percentuale e Importo della riga «Contributo ordinario CP» e l'età.

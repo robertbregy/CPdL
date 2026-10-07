@@ -82,3 +82,31 @@
   .fiscal-primary-message>b{font-size:46px!important}
   .fiscal-impact-main>p{font-size:14px!important}
 }
+
+
+/* v0.14 - equal visual weight: gross additional withholding vs tax-adjusted impact */
+.fiscal-balanced{padding:22px!important}
+.fiscal-balanced-intro{font-size:12px;text-transform:uppercase;letter-spacing:.11em;color:#cfe5fb;font-weight:900;margin-bottom:12px}
+.fiscal-balanced-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fiscal-equal-card{background:rgba(255,255,255,.11);border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:18px;min-width:0}
+.fiscal-equal-card span{display:block;color:#d7e7f5;font-size:13px;font-weight:800;line-height:1.25;min-height:34px}
+.fiscal-equal-card strong{display:inline-block;color:#fff;font-size:clamp(34px,4.6vw,52px);line-height:1;letter-spacing:-.05em;font-weight:950;margin-top:10px}
+.fiscal-equal-card em{font-style:normal;color:#d1e1ef;font-size:15px;font-weight:800;margin-left:5px}
+.fiscal-equal-card small{display:block;color:#c6d9e8;font-size:11px;line-height:1.35;margin-top:9px}
+.fiscal-equal-after{background:rgba(27,118,94,.22);border-color:rgba(187,233,216,.28)}
+.fiscal-equal-after strong{color:#e5faf1}
+.fiscal-equation{display:flex;align-items:center;gap:8px 10px;flex-wrap:wrap;margin-top:14px;padding:12px 14px;border:1px solid rgba(255,255,255,.14);border-radius:14px;background:rgba(0,0,0,.08);font-size:11px;color:#d4e5f3}
+.fiscal-equation strong{font-size:13px;color:#fff}
+.fiscal-equation b{font-size:14px;color:#9fc2df}
+.fiscal-equation span{color:#c9dceb}
+.fiscal-balanced>p{font-size:14px!important;margin-top:14px!important}
+.fiscal-balanced .fiscal-disclaimer{font-size:11px!important}
+/* neutralize the earlier v0.13 dominant hierarchy inside the balanced block */
+.fiscal-balanced .fiscal-gross-line,.fiscal-balanced .fiscal-primary-message,.fiscal-balanced .fiscal-breakdown{display:none!important}
+@media(max-width:640px){
+  .fiscal-balanced-grid{grid-template-columns:1fr}
+  .fiscal-equal-card span{min-height:0}
+  .fiscal-equal-card strong{font-size:38px}
+  .fiscal-equation{display:grid;grid-template-columns:auto 1fr;gap:5px 8px}
+  .fiscal-equation b{display:none}
+}

@@ -175,19 +175,25 @@
     const netBlock=Number.isFinite(x.netAfter)
       ? `<div class="summary-item"><span>Netto sul conto stimato</span><strong>${money(x.netAfter)}</strong></div>`
       : `<div class="summary-item"><span>Differenza mensile stimata</span><strong>${same?'–':money2(Math.abs(x.delta))}</strong></div>`;
-    const fiscalHero=!same&&x.annualDelta>0?`<div class="fiscal-impact-hero fiscal-impact-main">
-        <div class="fiscal-gross-line"><span>Trattenuta CP in più</span><strong>${money2(Math.abs(x.delta))} / mese</strong></div>
-        <div class="fiscal-primary-message">
-          <span>Con un calcolo approssimativo che tiene conto del risparmio d'imposta</span>
-          <strong>l'impatto economico stimato scenderebbe a</strong>
-          <b>≈ ${money2(Math.abs(economic))} <em>/ mese</em></b>
+    const fiscalHero=!same&&x.annualDelta>0?`<div class="fiscal-impact-hero fiscal-impact-main fiscal-balanced">
+        <div class="fiscal-balanced-intro">Due numeri da guardare insieme</div>
+        <div class="fiscal-balanced-grid">
+          <div class="fiscal-equal-card">
+            <span>Trattenuta aggiuntiva</span>
+            <strong>${money2(Math.abs(x.delta))}</strong>
+            <em>/ mese</em>
+            <small>quanto verrebbe trattenuto in più dallo stipendio</small>
+          </div>
+          <div class="fiscal-equal-card fiscal-equal-after">
+            <span>Dopo il risparmio d'imposta stimato</span>
+            <strong>≈ ${money2(Math.abs(economic))}</strong>
+            <em>/ mese</em>
+            <small>impatto economico mensile approssimativo</small>
+          </div>
         </div>
-        <div class="fiscal-breakdown">
-          <div><span>Trattenuta aggiuntiva</span><strong>${money2(Math.abs(x.delta))}/mese</strong></div>
-          <div><span>Risparmio d'imposta stimato</span><strong>− ${money2(savingMonthly)}/mese</strong><small>${money(saving)} circa all'anno</small></div>
-        </div>
-        <p>Il maggior contributo riduce il reddito imponibile. Per questo l'impatto economico può essere inferiore alla trattenuta aggiuntiva visibile sullo stipendio.</p>
-        <small class="fiscal-disclaimer">Calcolo indicativo: il risparmio d'imposta effettivo dipende dalla situazione fiscale personale.</small>
+        <div class="fiscal-equation"><strong>${money2(Math.abs(x.delta))}</strong><span>trattenuta in più</span><b>−</b><strong>${money2(savingMonthly)}</strong><span>risparmio d'imposta stimato</span><b>=</b><strong>≈ ${money2(Math.abs(economic))}</strong><span>impatto mensile stimato</span></div>
+        <p>Il contributo aggiuntivo riduce il reddito imponibile. Per questo l'impatto economico può risultare inferiore alla trattenuta aggiuntiva.</p>
+        <small class="fiscal-disclaimer">Calcolo approssimativo: il risparmio d'imposta effettivo dipende dalla situazione fiscale personale.</small>
       </div>`:'';
     $('summaryPanel').innerHTML=`${same?`<h3>Questa è la situazione di riferimento.</h3><p>Seleziona un’altra scala per vedere la differenza.</p>`:`<div class="summary-secondary-title">Scala ${x.scale} · confronto con la situazione attuale</div>${fiscalHero}`}
       <div class="summary-grid">
