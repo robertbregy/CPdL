@@ -147,19 +147,36 @@
     const mainLabel=Number.isFinite(x.netAfter)?'Quanto riceveresti circa sul conto':'Differenza rispetto a oggi';
     const tax=effectiveTaxRate(s);
     const taxSaving=x.annualDelta>0?x.annualDelta*tax:0;
-    const economic=(x.annualDelta-taxSaving)/P.cpPaymentsPerYear;
-    const savingMonthlyCard=taxSaving/P.cpPaymentsPerYear;
-    const comparePair=x.annualDelta>0?`<div class="card-cost-pair">
+    const taxEffectAnnual=x.annualDelta*effectiveTaxRate(s);
+    const economic=(x.annualDelta-taxEffectAnnual)/P.cpPaymentsPerYear;
+    const taxEffectMonthly=Math.abs(taxEffectAnnual/P.cpPaymentsPerYear);
+    const isReference=Math.abs(x.delta)<.005;
+    const grossLabel=isReference
+      ? 'Trattenuta aggiuntiva sullo stipendio'
+      : x.delta>0
+        ? 'Trattenuta in più sullo stipendio'
+        : 'Trattenuta in meno sullo stipendio';
+    const afterLabel=isReference
+      ? 'Impatto stimato dopo le imposte'
+      : x.delta>0
+        ? 'Impatto stimato dopo le imposte'
+        : 'Vantaggio stimato dopo le imposte';
+    const taxNote=isReference
+      ? 'Questa è la situazione di riferimento usata per il confronto.'
+      : x.delta>0
+        ? `Risparmio d'imposta stimato: <strong>${money2(taxEffectMonthly)} / mese</strong>`
+        : `Maggiore imposta stimata: <strong>${money2(taxEffectMonthly)} / mese</strong>`;
+    const comparePair=`<div class="card-cost-pair ${isReference?'reference':''}">
         <div class="card-cost-row">
-          <span>Trattenuta in più sullo stipendio</span>
+          <span>${grossLabel}</span>
           <strong>${money2(Math.abs(x.delta))}<em>/ mese</em></strong>
         </div>
         <div class="card-cost-row">
-          <span>Impatto stimato dopo le imposte</span>
-          <strong>≈ ${money2(Math.abs(economic))}<em>/ mese</em></strong>
+          <span>${afterLabel}</span>
+          <strong>${isReference?'':(x.delta>0?'≈ ':'≈ ')}${money2(Math.abs(economic))}<em>/ mese</em></strong>
         </div>
-        <div class="card-tax-note">Risparmio d'imposta stimato: <strong>${money2(savingMonthlyCard)} / mese</strong></div>
-      </div>`:'';
+        <div class="card-tax-note">${taxNote}</div>
+      </div>`;
     return `<button type="button" class="scale-card ${selected?'selected':''}" data-scale="${x.scale}" aria-pressed="${selected}">
       <div class="scale-top"><h3>Scala ${x.scale}</h3><span class="scale-tag">${isCurrent?'attuale':selected?'selezionata':'confronto'}</span></div>
       <div class="scale-description">${desc}</div>

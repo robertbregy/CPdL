@@ -163,3 +163,18 @@
   .fiscal-equal-card span,.fiscal-equal-after span{min-height:0!important}
   .fiscal-equal-card strong,.fiscal-equal-after strong{font-size:34px!important}
 }
+
+
+/* v0.17 - align the three scale cards visually and logically */
+.scale-grid{align-items:stretch}
+.scale-card{display:flex;flex-direction:column;height:100%;align-self:stretch}
+.scale-description{min-height:34px}
+.card-cost-pair{min-height:182px}
+.card-cost-pair.reference .card-cost-row strong{color:var(--ink)!important}
+.account-estimate{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);min-height:120px}
+.simple-metrics{margin-top:auto}
+.card-action{margin-top:12px}
+@media(max-width:560px){
+  .card-cost-pair{min-height:0}
+  .account-estimate{min-height:0}
+}
