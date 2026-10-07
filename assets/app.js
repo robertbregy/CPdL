@@ -133,7 +133,8 @@
     const tag = isCurrent
       ? (s.currentUnknown ? 'riferimento iniziale' : 'scala attuale')
       : (x.scale > s.currentScale ? 'più previdenza' : 'meno contributi');
-    const deltaClass = Math.abs(x.monthlySalaryDelta) < 0.5 ? 'same' : 'down';
+    const takeHomeDelta = -x.monthlySalaryDelta;
+    const deltaClass = Math.abs(takeHomeDelta) < 0.5 ? 'same' : (takeHomeDelta > 0 ? 'up' : 'down');
     const [taxName, taxText] = taxLabel(x.taxEffect);
     const impactText = Math.abs(x.economicMonthly) < 0.5 ? '–' : money(Math.abs(x.economicMonthly));
 
@@ -162,6 +163,10 @@
     const labels = ['', 'Stima iniziale', 'Dati aggiunti', 'Fisco approfondito', 'Proiezione attiva'];
     [...$('precisionDots').children].forEach((el, i) => el.classList.toggle('on', i < level));
     $('precisionLabel').textContent = labels[level];
+    document.querySelectorAll('.progress-item').forEach((el, i) => {
+      el.classList.toggle('active', i === Math.min(level - 1, 3));
+      el.classList.toggle('done', i < level - 1);
+    });
     $('salaryStatus').textContent = (s.ageKnown || s.grossInput > 0 || s.insuredInput > 0) ? 'Dati aggiunti' : 'Facoltativo';
     $('taxStatus').textContent = s.taxDetailed ? 'Dettaglio di test' : 'Stima automatica';
     $('pensionStatus').textContent = s.ageKnown && $('pensionStep').open ? 'In uso' : 'Facoltativo';
