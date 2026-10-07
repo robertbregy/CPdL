@@ -110,3 +110,19 @@
   .fiscal-equation{display:grid;grid-template-columns:auto 1fr;gap:5px 8px}
   .fiscal-equation b{display:none}
 }
+
+
+/* v0.15 - same visual weight for gross withholding and tax-adjusted impact inside each scale card */
+.card-cost-pair{display:grid;grid-template-columns:1fr;gap:8px;margin-top:18px}
+.card-cost-row{border:1px solid var(--line);border-radius:14px;padding:12px 13px;background:#f7fafc}
+.card-cost-row>span{display:block;font-size:10px;line-height:1.25;text-transform:uppercase;letter-spacing:.075em;color:var(--muted);font-weight:900}
+.card-cost-row>strong{display:block;font-size:21px;line-height:1.05;letter-spacing:-.035em;color:var(--ink);font-weight:950;margin-top:6px}
+.card-cost-row>strong em{font-style:normal;font-size:12px;letter-spacing:0;color:var(--muted);font-weight:800;margin-left:4px}
+.card-cost-after{background:#f0f8f4;border-color:#cfe5da}
+.card-cost-after>strong{color:var(--green)}
+.card-cost-after>span{color:#537868}
+.account-estimate{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.account-estimate>span{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:800}
+.account-estimate>strong{display:block;font-size:24px;line-height:1.05;letter-spacing:-.035em;margin-top:4px}
+.scale-card .amount-label,.scale-card .amount-main,.scale-card .delta-pill,.scale-card .after-tax-impact{display:none!important}
+@media(max-width:560px){.card-cost-row>strong{font-size:20px}.account-estimate>strong{font-size:22px}}

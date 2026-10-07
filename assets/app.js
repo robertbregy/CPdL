@@ -149,14 +149,24 @@
     const taxSaving=x.annualDelta>0?x.annualDelta*tax:0;
     const economic=(x.annualDelta-taxSaving)/P.cpPaymentsPerYear;
     const savingMonthlyCard=taxSaving/P.cpPaymentsPerYear;
-    const fiscalBlock=x.annualDelta>0?`<div class="after-tax-impact primary-tax-impact"><span>Dopo il risparmio d'imposta</span><strong>≈ ${money2(Math.abs(economic))} / mese</strong><small>Impatto economico stimato · trattenuta ${money2(Math.abs(x.delta))}/mese, tenendo conto del risparmio d'imposta stimato</small></div>`:'';
+    const comparePair=x.annualDelta>0?`<div class="card-cost-pair">
+        <div class="card-cost-row card-cost-gross">
+          <span>Trattenuta in più sullo stipendio</span>
+          <strong>${money2(Math.abs(x.delta))}<em>/ mese</em></strong>
+        </div>
+        <div class="card-cost-row card-cost-after">
+          <span>Impatto stimato dopo le imposte</span>
+          <strong>≈ ${money2(Math.abs(economic))}<em>/ mese</em></strong>
+        </div>
+      </div>`:'';
     return `<button type="button" class="scale-card ${selected?'selected':''}" data-scale="${x.scale}" aria-pressed="${selected}">
       <div class="scale-top"><h3>Scala ${x.scale}</h3><span class="scale-tag">${isCurrent?'attuale':selected?'selezionata':'confronto'}</span></div>
       <div class="scale-description">${desc}</div>
-      <div class="amount-label">${mainLabel}</div>
-      <div class="amount-main">${main}</div>
-      ${Number.isFinite(x.netAfter)?`<span class="delta-pill ${cls}">${signed(change)} / mese</span>`:''}
-      ${fiscalBlock}
+      ${comparePair}
+      <div class="account-estimate">
+        <span>${mainLabel}</span>
+        <strong>${main}</strong>
+      </div>
       <div class="simple-metrics">
         <div><span>Trattenuta Cassa pensioni</span><strong>${money2(x.newDeduction)}</strong></div>
         <div><span>Percentuale</span><strong>${(x.rate*100).toFixed(2)}%</strong></div>
