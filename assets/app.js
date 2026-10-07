@@ -148,7 +148,8 @@
     const tax=effectiveTaxRate(s);
     const taxSaving=x.annualDelta>0?x.annualDelta*tax:0;
     const economic=(x.annualDelta-taxSaving)/P.cpPaymentsPerYear;
-    const fiscalBlock=x.annualDelta>0?`<div class="after-tax-impact"><span>Dopo l'effetto fiscale</span><strong>≈ ${money2(Math.abs(economic))} / mese</strong><small>impatto economico stimato</small></div>`:'';
+    const savingMonthlyCard=taxSaving/P.cpPaymentsPerYear;
+    const fiscalBlock=x.annualDelta>0?`<div class="after-tax-impact primary-tax-impact"><span>Costo stimato dopo l'effetto fiscale</span><strong>≈ ${money2(Math.abs(economic))} / mese</strong><small>Trattenuta: ${money2(Math.abs(x.delta))} · recupero fiscale stimato: ${money2(savingMonthlyCard)}/mese</small></div>`:'';
     return `<button type="button" class="scale-card ${selected?'selected':''}" data-scale="${x.scale}" aria-pressed="${selected}">
       <div class="scale-top"><h3>Scala ${x.scale}</h3><span class="scale-tag">${isCurrent?'attuale':selected?'selezionata':'confronto'}</span></div>
       <div class="scale-description">${desc}</div>
@@ -174,16 +175,19 @@
     const netBlock=Number.isFinite(x.netAfter)
       ? `<div class="summary-item"><span>Netto sul conto stimato</span><strong>${money(x.netAfter)}</strong></div>`
       : `<div class="summary-item"><span>Differenza mensile stimata</span><strong>${same?'–':money2(Math.abs(x.delta))}</strong></div>`;
-    const fiscalHero=!same&&x.annualDelta>0?`<div class="fiscal-impact-hero">
-        <div><span>Dopo l'effetto fiscale</span><strong>≈ ${money2(Math.abs(economic))} / mese</strong></div>
-        <p>La trattenuta aumenta di <b>${money2(Math.abs(x.delta))} al mese</b>, ma una parte può essere recuperata fiscalmente. Risparmio fiscale indicativo: <b>${money(saving)} all'anno</b> (circa ${money2(savingMonthly)} al mese).</p>
-        <small>Stima indicativa: il risultato fiscale reale dipende dalla situazione personale.</small>
+    const fiscalHero=!same&&x.annualDelta>0?`<div class="fiscal-impact-hero fiscal-impact-main">
+        <div class="fiscal-main-number"><span>Quanto ti costerebbe davvero, circa</span><strong>≈ ${money2(Math.abs(economic))} <em>/ mese</em></strong><small>dopo una stima semplice dell'effetto fiscale</small></div>
+        <div class="fiscal-breakdown">
+          <div><span>Trattenuta CP in più</span><strong>${money2(Math.abs(x.delta))}/mese</strong></div>
+          <div><span>Recupero fiscale stimato</span><strong>− ${money2(savingMonthly)}/mese</strong><small>${money(saving)} circa all'anno</small></div>
+        </div>
+        <p><b>Il numero da guardare è quello sopra.</b> La trattenuta sullo stipendio aumenta di più, ma una parte può essere recuperata fiscalmente.</p>
+        <small class="fiscal-disclaimer">Stima indicativa: l'effetto fiscale reale dipende dalla situazione personale.</small>
       </div>`:'';
-    $('summaryPanel').innerHTML=`<h3>${same?'Questa è la situazione di riferimento.':`${money2(Math.abs(x.delta))} ${x.delta>0?'in più':'in meno'} di trattenuta al mese.`}</h3>
-      ${same?'<p>Seleziona un’altra scala per vedere la differenza.</p>':fiscalHero}
+    $('summaryPanel').innerHTML=`${same?`<h3>Questa è la situazione di riferimento.</h3><p>Seleziona un’altra scala per vedere la differenza.</p>`:`<div class="summary-secondary-title">Scala ${x.scale} · confronto con la situazione attuale</div>${fiscalHero}`}
       <div class="summary-grid">
         ${netBlock}
-        <div class="summary-item"><span>Trattenuta CP stimata</span><strong>${money2(x.newDeduction)}</strong></div>
+        <div class="summary-item"><span>Nuova trattenuta CP stimata</span><strong>${money2(x.newDeduction)}</strong></div>
         <div class="summary-item"><span>Qualità del calcolo</span><strong>${s.precision===3?'Alta sulla trattenuta':s.precision===2?'Migliorata':'Orientativa'}</strong></div>
       </div>`;
   }

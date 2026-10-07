@@ -17,3 +17,26 @@
 @media(max-width:820px){.start-choice-grid,.simple-form,.simple-row,.cols-3,.cols-2,.scale-grid{grid-template-columns:1fr}.simple-form .choice-field{grid-column:auto}.payslip-demo{grid-template-columns:1fr 1fr}.payslip-demo .definition{grid-column:1/-1;border-bottom:1px solid var(--line)}.payslip-demo>div:nth-child(2){border-left:0}.section-head{align-items:flex-start;flex-direction:column}.precision-box{width:100%;min-width:0}.summary-grid{grid-template-columns:1fr}.refine-prompt,.tax-summary,.mypension-card{align-items:flex-start;flex-direction:column}.footer-inner{flex-direction:column}.footer-inner p{text-align:left}.header-meta .privacy-badge{display:none}}
 @media(max-width:560px){body{font-size:16px}.shell{width:min(100% - 24px,1040px)}.site-header .header-inner{min-height:64px}.brand-mark{width:40px;height:40px;border-radius:11px}.brand-copy strong{font-size:14px}.brand-copy small{display:none}.deadline{padding-left:0;border-left:0}.deadline small{display:none}.deadline strong{font-size:11px}.hero{padding-block:34px 24px}.hero h1{font-size:40px}.hero>p{font-size:16px}.chooser-card,.start-panel,.results-section{width:100%;border-left:0;border-right:0;border-radius:0;box-shadow:none;padding:20px 16px;margin-bottom:40px}.chooser-head h2,.step-head h2{font-size:28px}.start-choice{min-height:0;padding:18px;grid-template-columns:auto 1fr}.choice-arrow{display:none}.choice-copy strong{font-size:20px}.choice-icon{width:46px;height:46px}.payslip-demo{grid-template-columns:1fr}.payslip-demo .definition{grid-column:auto}.payslip-demo>div{border-left:0;border-top:1px solid var(--line)}.payslip-demo>div:first-child{border-top:0}.money-input input{font-size:19px}.field>input,.field select,.money-input{min-height:54px}.primary-actions{align-items:stretch;flex-direction:column}.primary-button,.secondary-button,.ghost-button{width:100%}.text-button{width:100%;text-align:center}.section-head h2{font-size:30px}.scale-card:hover{transform:none}.amount-main{font-size:27px}.summary-panel{border-radius:18px}.summary-panel h3{font-size:23px}.bottom-actions{flex-direction:column}.footer-inner{padding-block:20px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+/* v0.11 - fiscal impact is the primary decision number */
+.primary-tax-impact{order:-1;margin-top:14px;padding:14px 14px 13px;background:#eef9f4;border:1.5px solid #b9e2cf}
+.primary-tax-impact span{font-size:10px}
+.primary-tax-impact strong{font-size:23px;letter-spacing:-.035em}
+.primary-tax-impact small{font-size:10px;line-height:1.35;margin-top:5px}
+.summary-secondary-title{font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:#cfe5fb;font-weight:900;margin-bottom:12px}
+.fiscal-impact-main{margin:0 0 18px;background:#fff;color:var(--ink);border-radius:22px;padding:22px 24px;box-shadow:0 12px 28px rgba(4,34,63,.14)}
+.fiscal-main-number{padding-bottom:18px;border-bottom:1px solid var(--line)}
+.fiscal-main-number>span{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--green);font-weight:900}
+.fiscal-main-number>strong{display:block;font-size:clamp(36px,5vw,54px);line-height:.98;letter-spacing:-.055em;color:var(--green);margin-top:7px}
+.fiscal-main-number>strong em{font-style:normal;font-size:.42em;letter-spacing:-.02em;color:#4d7869;font-weight:850}
+.fiscal-main-number>small{display:block;color:var(--muted);font-size:11px;margin-top:8px}
+.fiscal-breakdown{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.fiscal-breakdown>div{background:#f7fafc;border:1px solid var(--line);border-radius:14px;padding:13px 14px}
+.fiscal-breakdown span{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.07em;font-weight:800}
+.fiscal-breakdown strong{display:block;color:var(--ink);font-size:18px;margin-top:4px}
+.fiscal-breakdown>div:nth-child(2) strong{color:var(--green)}
+.fiscal-breakdown small{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+.fiscal-impact-main>p{margin:16px 0 0;color:var(--ink2);font-size:13px;line-height:1.5}
+.fiscal-impact-main .fiscal-disclaimer{display:block;color:var(--muted);font-size:10px;margin-top:8px}
+.summary-panel{padding:26px}
+@media(max-width:560px){.fiscal-impact-main{padding:18px}.fiscal-main-number>strong{font-size:38px}.fiscal-breakdown{grid-template-columns:1fr}.summary-panel{padding:18px}}
