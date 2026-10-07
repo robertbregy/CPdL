@@ -1,16 +1,15 @@
-# CPdL · Simulatore scala contributiva — v0.16
+# CPdL · Simulatore scala contributiva — v0.18
 
 Prototipo statico per GitHub Pages. Tutti i calcoli avvengono localmente nel browser.
 
-## Novità v0.16
+## Novità v0.18
 
-- Due percorsi di ingresso equivalenti: **Ho la busta paga** / **Non ho la busta paga**.
-- Il percorso busta paga richiede almeno due valori tra Base, Percentuale e Importo della riga «Contributo ordinario CP» e l'età.
-- Il percorso senza busta paga parte da netto mensile + età + informazione sulla tredicesima.
-- I due percorsi confluiscono nello stesso confronto Scala 1/2/3.
-- Chi parte dal conto può aggiungere la busta paga più tardi senza ricominciare.
-- Chi parte dalla busta paga può aggiungere il netto mensile per vedere anche il nuovo importo stimato sul conto.
-- Stima indicativa delle imposte separata e collegamento a MyPension per le prestazioni future.
+- Mantiene i due percorsi di ingresso: **Ho la busta paga** / **Non ho la busta paga**.
+- Nel confronto Scala 1/2/3 mostra ora tre dimensioni allo stesso livello: **trattenuta**, **impatto stimato dopo le imposte** e **quanto in più/in meno viene destinato alla previdenza**.
+- Aggiunto il blocco esplicativo **«Pago di più. Ma a che pro?»** per chiarire che il maggior contributo aumenta gli accrediti destinati all'avere di vecchiaia.
+- Il riepilogo della scala selezionata mostra anche l'importo annuo aggiuntivo destinato alla previdenza.
+- MyPension resta lo strumento di riferimento per tradurre il maggior risparmio previdenziale in capitale e prestazioni future.
+- Terminologia e gerarchia visiva mantengono separate trattenuta salariale, effetto sulle imposte e beneficio previdenziale.
 
 ## Pubblicazione
 

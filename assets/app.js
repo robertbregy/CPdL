@@ -166,6 +166,13 @@
       : x.delta>0
         ? `Risparmio d'imposta stimato: <strong>${money2(taxEffectMonthly)} / mese</strong>`
         : `Maggiore imposta stimata: <strong>${money2(taxEffectMonthly)} / mese</strong>`;
+    const pensionLabel=isReference
+      ? 'In più nella tua previdenza'
+      : x.delta>0
+        ? 'In più nella tua previdenza'
+        : 'In meno nella tua previdenza';
+    const pensionMonthly=Math.abs(x.delta);
+    const pensionAnnual=Math.abs(x.annualDelta);
     const comparePair=`<div class="card-cost-pair ${isReference?'reference':''}">
         <div class="card-cost-row">
           <span>${grossLabel}</span>
@@ -173,7 +180,12 @@
         </div>
         <div class="card-cost-row">
           <span>${afterLabel}</span>
-          <strong>${isReference?'':(x.delta>0?'≈ ':'≈ ')}${money2(Math.abs(economic))}<em>/ mese</em></strong>
+          <strong>${isReference?'': '≈ '}${money2(Math.abs(economic))}<em>/ mese</em></strong>
+        </div>
+        <div class="card-cost-row pension-value-row">
+          <span>${pensionLabel}</span>
+          <strong>${money2(pensionMonthly)}<em>/ mese</em></strong>
+          <small>${isReference?'Situazione di riferimento':`${money2(pensionAnnual)} / anno`}</small>
         </div>
         <div class="card-tax-note">${taxNote}</div>
       </div>`;
@@ -203,22 +215,31 @@
     const netBlock=Number.isFinite(x.netAfter)
       ? `<div class="summary-item"><span>Netto sul conto stimato</span><strong>${money(x.netAfter)}</strong></div>`
       : `<div class="summary-item"><span>Differenza mensile stimata</span><strong>${same?'–':money2(Math.abs(x.delta))}</strong></div>`;
-    const fiscalHero=!same&&x.annualDelta>0?`<div class="fiscal-impact-hero fiscal-impact-main fiscal-balanced">
-        <div class="fiscal-balanced-intro">I due numeri chiave</div>
-        <div class="fiscal-balanced-grid">
+    const previdenzaMonthly=Math.abs(x.delta);
+    const previdenzaAnnual=Math.abs(x.annualDelta);
+    const fiscalHero=!same?`<div class="fiscal-impact-hero fiscal-impact-main fiscal-balanced">
+        <div class="fiscal-balanced-intro">I tre numeri che contano</div>
+        <div class="fiscal-balanced-grid three-key-grid">
           <div class="fiscal-equal-card">
-            <span>Trattenuta in più sullo stipendio</span>
+            <span>${x.delta>0?'Trattenuta in più sullo stipendio':'Trattenuta in meno sullo stipendio'}</span>
             <strong>${money2(Math.abs(x.delta))}</strong>
             <em>/ mese</em>
           </div>
           <div class="fiscal-equal-card">
-            <span>Impatto stimato dopo le imposte</span>
+            <span>${x.delta>0?'Impatto stimato dopo le imposte':'Vantaggio stimato dopo le imposte'}</span>
             <strong>≈ ${money2(Math.abs(economic))}</strong>
             <em>/ mese</em>
           </div>
+          <div class="fiscal-equal-card pension-key-card">
+            <span>${x.delta>0?'In più nella tua previdenza':'In meno nella tua previdenza'}</span>
+            <strong>${money2(previdenzaMonthly)}</strong>
+            <em>/ mese</em>
+            <small>${money2(previdenzaAnnual)} / anno</small>
+          </div>
         </div>
-        <p class="balanced-explanation">Il secondo importo tiene conto di un risparmio d'imposta stimato di <strong>${money2(savingMonthly)} / mese</strong>.</p>
-        <small class="fiscal-disclaimer">Calcolo approssimativo: l'effetto effettivo sulle imposte dipende dalla situazione fiscale personale.</small>
+        <p class="balanced-explanation"><strong>Perché versare di più?</strong> Il maggior contributo non sparisce: aumenta gli accrediti destinati al tuo avere di vecchiaia. ${x.delta>0?`Con questa scelta destineresti circa <strong>${money2(previdenzaAnnual)} in più ogni anno</strong> alla tua previdenza.`:`Con questa scelta destineresti circa <strong>${money2(previdenzaAnnual)} in meno ogni anno</strong> alla tua previdenza.`}</p>
+        <p class="balanced-explanation tax-explanation">L'impatto dopo le imposte tiene conto di un risparmio d'imposta stimato di <strong>${money2(savingMonthly)} / mese</strong>.</p>
+        <small class="fiscal-disclaimer">Calcolo approssimativo: l'effetto effettivo sulle imposte dipende dalla situazione fiscale personale. Per vedere l'effetto sulle prestazioni future usa MyPension.</small>
       </div>`:'';
     $('summaryPanel').innerHTML=`${same?`<h3>Questa è la situazione di riferimento.</h3><p>Seleziona un’altra scala per vedere la differenza.</p>`:`<div class="summary-secondary-title">Scala ${x.scale} · confronto con la situazione attuale</div>${fiscalHero}`}
       <div class="summary-grid">

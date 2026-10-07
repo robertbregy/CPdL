@@ -7,7 +7,7 @@
   <meta name="description" content="Simulatore orientativo CPdL per confrontare le scale contributive partendo dalla busta paga oppure da quanto ricevi sul conto.">
   <title>CPdL · Quanto cambia sullo stipendio?</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/style.css?v=0.16.0">
+  <link rel="stylesheet" href="assets/style.css?v=0.18.0">
 </head>
 <body>
   <header class="site-header">
@@ -191,11 +191,20 @@
       <div class="scale-explainer">
         <strong>Le tre scale, in parole semplici</strong>
         <span><b>Scala 1</b> · standard</span>
-        <span><b>Scala 2</b> · versi di più alla pensione</span>
-        <span><b>Scala 3</b> · versi ancora di più alla pensione</span>
+        <span><b>Scala 2</b> · versi di più e aumenti la tua previdenza</span>
+        <span><b>Scala 3</b> · versi ancora di più e aumenti ulteriormente la tua previdenza</span>
       </div>
 
       <div class="scale-grid" id="scaleGrid" aria-live="polite"></div>
+
+      <div class="why-more-box">
+        <div class="why-more-icon" aria-hidden="true">+</div>
+        <div>
+          <strong>Pago di più. Ma a che pro?</strong>
+          <p>La differenza non è una spesa che scompare: con una scala più alta aumentano gli accrediti destinati al tuo avere di vecchiaia. Nel riepilogo qui sotto vedi insieme <b>quanto ti viene trattenuto in più</b>, <b>quanto potrebbe pesarti dopo le imposte</b> e <b>quanto in più destini alla tua previdenza</b>.</p>
+        </div>
+      </div>
+
       <div class="summary-panel" id="summaryPanel" aria-live="polite"></div>
 
       <section class="refine-card" id="refineSection" aria-labelledby="refine-title">
@@ -275,7 +284,7 @@
         <div>
           <span class="eyebrow light">Per la pensione futura</span>
           <h2 id="mypension-title">Vuoi sapere cosa cambia davvero sulla tua pensione?</h2>
-          <p>Qui capisci soprattutto l'effetto sullo stipendio. Per simulare le prestazioni future con i tuoi dati previdenziali reali usa <strong>MyPension</strong>.</p>
+          <p>Qui vedi quanto versi in più, quanto potrebbe pesarti dopo le imposte e quanto in più destini alla tua previdenza. Per tradurre tutto questo in <strong>capitale e prestazioni future</strong> usa MyPension con i tuoi dati reali.</p>
         </div>
         <a class="mypension-button" href="https://mypension.aon.ch/SSEmployeelugano/PROD/SFY100001B" target="_blank" rel="noopener">Apri MyPension <span aria-hidden="true">↗</span></a>
       </section>
@@ -297,11 +306,11 @@
 
   <footer class="site-footer">
     <div class="shell footer-inner">
-      <div><strong>CPdL · Simulatore orientativo</strong><span>Prototipo v0.16 · ottobre 2026</span></div>
+      <div><strong>CPdL · Simulatore orientativo</strong><span>Prototipo v0.18 · ottobre 2026</span></div>
       <p>I dati inseriti restano nel browser e non vengono trasmessi o salvati.</p>
     </div>
   </footer>
 
-  <script src="assets/app.js?v=0.16.0"></script>
+  <script src="assets/app.js?v=0.18.0"></script>
 </body>
 </html>
