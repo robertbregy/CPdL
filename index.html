@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b4f9c">
-  <meta name="description" content="Simulatore orientativo CPdL per confrontare le scale contributive e capire l'impatto mensile stimato.">
-  <title>CPdL · Quanto cambia se cambio scala?</title>
+  <meta name="description" content="Simulatore orientativo CPdL: parti dal netto che ricevi sul conto, poi affina la stima con i dati della busta paga se li hai.">
+  <title>CPdL · Simulatore scala contributiva</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/style.css?v=0.6.0">
+  <link rel="stylesheet" href="assets/style.css?v=0.7.0">
 </head>
 <body>
   <header class="site-header">
@@ -17,7 +17,7 @@
         <span class="brand-copy"><strong>Cassa Pensioni di Lugano</strong><small>Simulatore orientativo scala contributiva</small></span>
       </a>
       <div class="header-meta">
-        <span class="privacy-badge"><i aria-hidden="true"></i> Nessun login</span>
+        <span class="privacy-badge"><i aria-hidden="true"></i> Simulazione anonima</span>
         <span class="deadline"><small>Richiesta entro</small><strong>30 novembre 2026</strong></span>
       </div>
     </div>
@@ -25,146 +25,187 @@
 
   <main id="top">
     <section class="hero shell">
-      <div>
+      <div class="hero-copy">
         <span class="eyebrow">Scala contributiva 2027</span>
-        <h1>Quanto ti costa<br>cambiare scala?</h1>
-        <p>Prendi l'ultima busta paga. Con <strong>due dati</strong> puoi stimare in pochi secondi quanto cambierebbe la trattenuta CPdL ogni mese. Per la simulazione previdenziale completa userai poi <strong>MyPension</strong>.</p>
+        <h1>Quanto cambierebbe<br>quello che ricevi sul conto?</h1>
+        <p>Non serve avere subito la busta paga. Parti da <strong>quanto ti viene versato ogni mese</strong>: ottieni una prima stima e, solo se vuoi, la rendi più precisa aggiungendo altri dati.</p>
       </div>
-      <div class="hero-route" aria-label="Percorso del simulatore">
-        <span><b>1</b> Busta paga</span><i></i><span><b>2</b> Confronto</span><i></i><span><b>3</b> MyPension</span>
+      <div class="hero-trust" aria-label="Caratteristiche del simulatore">
+        <div><strong>1 dato</strong><span>per iniziare</span></div>
+        <div><strong>30 secondi</strong><span>per una prima risposta</span></div>
+        <div><strong>Zero login</strong><span>nessun dato salvato</span></div>
       </div>
     </section>
 
-    <section class="shell tool-card" aria-labelledby="quick-title">
-      <div class="tool-head">
+    <section class="shell simulator-card" aria-labelledby="sim-title">
+      <div class="progress-rail" aria-label="Percorso di simulazione">
+        <div class="rail-step active" id="rail1"><span>1</span><div><strong>Stima rapida</strong><small>netto + età</small></div></div>
+        <i></i>
+        <div class="rail-step" id="rail2"><span>2</span><div><strong>Busta paga</strong><small>facoltativa</small></div></div>
+        <i></i>
+        <div class="rail-step" id="rail3"><span>3</span><div><strong>Fisco</strong><small>stima marginale</small></div></div>
+        <i></i>
+        <div class="rail-step" id="rail4"><span>4</span><div><strong>MyPension</strong><small>prestazioni future</small></div></div>
+      </div>
+
+      <div class="sim-topline">
         <div>
-          <span class="step-label">Stima rapida · consigliata</span>
-          <h2 id="quick-title">Copia due valori dalla tua busta paga.</h2>
-          <p>Questa scorciatoia è pensata per chi nel 2027 resta nella stessa fascia d'età LPP. Se cambi fascia, usa il calcolo completo più sotto.</p>
+          <span class="step-label">1 · Parti da quello che sai</span>
+          <h2 id="sim-title">Quanto ricevi normalmente sul conto?</h2>
+          <p>Usa un mese ordinario, senza tredicesima, arretrati o rimborsi eccezionali.</p>
         </div>
+        <div class="precision" aria-live="polite">
+          <span>Precisione</span>
+          <div class="precision-bars"><i class="on"></i><i></i><i></i></div>
+          <strong id="precisionLabel">Stima iniziale</strong>
+        </div>
+      </div>
+
+      <div class="starter-grid">
+        <label class="field featured">
+          <span>Quanto ti viene versato sul conto al mese?</span>
+          <div class="money-input hero-input"><b>CHF</b><input id="netMonthly" type="number" inputmode="decimal" min="500" max="30000" step="50" value="6000"></div>
+          <small>Il netto che vedi normalmente accreditato in banca.</small>
+        </label>
+
+        <label class="field">
+          <span>Quanti anni hai?</span>
+          <input id="age" type="number" min="18" max="70" value="45">
+          <small>Serve per individuare la fascia contributiva CPdL.</small>
+        </label>
+
+        <label class="field">
+          <span>Hai diritto alla tredicesima?</span>
+          <select id="salaryMonths"><option value="13" selected>Sì · 13 mensilità</option><option value="12">No · 12 mensilità</option><option value="unknown">Non lo so</option></select>
+          <small>Se non lo sai useremo 13 mensilità come ipotesi.</small>
+        </label>
+
+        <label class="field">
+          <span>Conosci la tua scala attuale? <em>facoltativo</em></span>
+          <select id="currentScale"><option value="unknown" selected>Non lo so</option><option value="1">Scala 1</option><option value="2">Scala 2</option><option value="3">Scala 3</option></select>
+          <small>Se non la conosci, la prima stima usa Scala 1 come riferimento.</small>
+        </label>
+      </div>
+
+      <div class="estimate-note" id="estimateNote">
+        <span aria-hidden="true">i</span>
+        <p><strong>Prima stima.</strong> Dal netto ricostruiamo indicativamente stipendio e base CP usando i parametri 2026 disponibili. Puoi correggere la stima al passo 2 senza dover cercare nulla adesso.</p>
+      </div>
+
+      <div class="results-head">
+        <div><span class="step-label">Confronto immediato</span><h3>Scala 1, 2 e 3</h3></div>
         <button type="button" class="ghost-button" id="resetButton">Ricomincia</button>
       </div>
+      <div class="scale-grid" id="scaleGrid" aria-live="polite"></div>
+      <div class="summary-panel" id="summaryPanel" aria-live="polite"></div>
 
-      <div class="quick-grid">
-        <label class="field featured">
-          <span>Trattenuta CPdL attuale <em>al mese</em></span>
-          <div class="money-input"><b>CHF</b><input id="currentDeduction" type="number" inputmode="decimal" min="0" step="0.05" value="213.35"></div>
-          <small>Cerca l'importo trattenuto oggi per la cassa pensioni.</small>
-        </label>
+      <details class="step-card" id="payslipStep">
+        <summary>
+          <span class="step-number">2</span>
+          <span class="step-title"><strong>Hai sotto mano una busta paga?</strong><small>Non è necessaria. Se ce l'hai, la stima della trattenuta diventa molto più precisa.</small></span>
+          <span class="step-status" id="payslipStatus">Facoltativo</span>
+        </summary>
+        <div class="step-body">
+          <div class="payslip-guide">
+            <div>
+              <span class="mini-label">Cerca questa riga</span>
+              <strong>Contributo ordinario CP</strong>
+              <p>Nella riga trovi già i due dati migliori per il confronto: <strong>Base</strong> e <strong>percentuale</strong>. Non serve recuperare tutto il resto del conteggio stipendio.</p>
+            </div>
+            <div class="payslip-demo" aria-label="Esempio schematico della riga Contributo ordinario CP">
+              <div><span>Definizione</span><strong>Contributo ordinario CP</strong></div>
+              <div><span>Base</span><strong>CHF …</strong></div>
+              <div><span>Numero</span><strong>… %</strong></div>
+              <div><span>Importo</span><strong>CHF …</strong></div>
+            </div>
+          </div>
 
-        <label class="field featured">
-          <span>Percentuale CPdL attuale</span>
-          <div class="money-input suffix"><input id="currentRate" type="number" inputmode="decimal" min="1" max="20" step="0.05" value="10"><b>%</b></div>
-          <small>La percentuale indicata accanto alla trattenuta.</small>
-        </label>
-
-        <label class="field">
-          <span>Quanto ricevi normalmente sul conto? <em>facoltativo</em></span>
-          <div class="money-input"><b>CHF</b><input id="netMonthly" type="number" inputmode="decimal" min="0" step="50" placeholder="es. 6'000"></div>
-          <small>Serve solo per mostrarti il nuovo netto stimato.</small>
-        </label>
-
-        <label class="field">
-          <span>Mensilità considerate</span>
-          <select id="salaryMonths"><option value="13" selected>13 mensilità</option><option value="12">12 mensilità</option></select>
-          <small>Scegli in base al tuo rapporto d'impiego.</small>
-        </label>
-      </div>
-
-      <div class="match-note" id="rateMatch" aria-live="polite"></div>
-
-      <div class="compare-head">
-        <div><span class="step-label">Confronto immediato</span><h3>Quanto cambierebbe la trattenuta ogni mese</h3></div>
-        <span class="estimate-tag">Valori orientativi · dati 2026</span>
-      </div>
-
-      <div class="scale-grid" id="quickScaleGrid" aria-live="polite"></div>
-      <div class="summary-panel" id="quickSummary" aria-live="polite"></div>
-    </section>
-
-    <section class="shell followup-grid">
-      <article class="tax-card">
-        <span class="step-label">Effetto fiscale</span>
-        <h2>Quanto recuperi sulle imposte?</h2>
-        <p>I contributi aggiuntivi sono deducibili. Partiamo da un'aliquota marginale semplificata; puoi poi affinare la stima.</p>
-
-        <div class="tax-rate-line">
-          <label class="field compact"><span>Aliquota marginale usata</span><div class="money-input suffix"><input id="taxRate" type="number" min="0" max="50" step="1" value="20"><b>%</b></div></label>
-          <div class="tax-result"><span>Risparmio fiscale stimato</span><strong id="taxSaving">–</strong><small id="taxSavingNote">Seleziona una scala diversa da quella attuale.</small></div>
+          <div class="form-grid two">
+            <label class="field featured-small"><span>Base CP mensile</span><div class="money-input"><b>CHF</b><input id="cpBase" type="number" inputmode="decimal" min="0" step="0.05" placeholder="es. 5'000"></div><small>La cifra nella colonna «Base» della riga CP.</small></label>
+            <label class="field featured-small"><span>Percentuale CP attuale</span><div class="money-input suffix"><input id="cpRate" type="number" inputmode="decimal" min="1" max="20" step="0.05" placeholder="es. 10.75"><b>%</b></div><small>La percentuale nella colonna «Numero» della stessa riga.</small></label>
+          </div>
+          <div class="validation-note" id="cpValidation" aria-live="polite"></div>
         </div>
+      </details>
 
-        <details class="tax-details" id="taxDetails">
-          <summary>Rendi la stima fiscale più precisa <span aria-hidden="true">＋</span></summary>
-          <div class="details-body">
-            <p class="details-intro">Nel prototipo questi dati affinano una stima orientativa. Il modello fiscale definitivo dovrà essere validato.</p>
+      <details class="step-card" id="taxStep">
+        <summary>
+          <span class="step-number">3</span>
+          <span class="step-title"><strong>Vuoi considerare anche l'effetto fiscale?</strong><small>Partiamo da un'aliquota marginale semplificata, poi puoi aggiungere dettagli.</small></span>
+          <span class="step-status" id="taxStatus">Stima automatica</span>
+        </summary>
+        <div class="step-body">
+          <div class="tax-overview">
+            <div><span class="mini-label">Aliquota marginale stimata</span><strong id="taxRateOut">–</strong><small id="taxRateMode">stima semplificata</small></div>
+            <div><span class="mini-label">Effetto fiscale sulla scala selezionata</span><strong id="taxSavingOut">–</strong><small id="taxSavingNote">Seleziona una scala diversa dal riferimento.</small></div>
+          </div>
+
+          <label class="switch-row"><input id="taxDetailToggle" type="checkbox"><span class="switch" aria-hidden="true"></span><span>Voglio rendere la stima fiscale più precisa</span></label>
+
+          <div class="tax-detail" id="taxDetail" hidden>
             <div class="form-grid two">
-              <label class="field"><span>Stipendio lordo annuo <em>se lo conosci</em></span><div class="money-input"><b>CHF</b><input id="taxGrossAnnual" type="number" min="0" step="1000" placeholder="dalla busta paga"></div></label>
               <label class="field"><span>Comune di domicilio fiscale</span><select id="municipality"><option value="lugano">Lugano</option><option value="other">Altro Comune ticinese</option><option value="outside">Fuori Ticino</option></select></label>
               <label class="field"><span>Stato civile</span><select id="marital"><option value="single">Celibe / nubile / separato</option><option value="married">Coniugato/a</option></select></label>
               <label class="field"><span>Figli a carico</span><select id="children"><option value="0">Nessuno</option><option value="1">1</option><option value="2">2</option><option value="3">3 o più</option></select></label>
               <label class="field"><span>Imposta alla fonte</span><select id="sourceTax"><option value="no">No</option><option value="yes">Sì</option></select></label>
               <label class="field" id="spouseWrap" hidden><span>Reddito annuo indicativo del coniuge</span><select id="spouseIncome"><option value="0">Nessun reddito</option><option value="30000">Fino a CHF 50'000</option><option value="75000">CHF 50'000–100'000</option><option value="125000">Oltre CHF 100'000</option></select></label>
             </div>
+            <div class="prototype-warning"><strong>Modello fiscale preliminare.</strong> Il dettaglio serve a mostrare il percorso UX; le regole fiscali definitive devono ancora essere validate.</div>
           </div>
-        </details>
-      </article>
-
-      <article class="mypension-card">
-        <span class="step-label light">Simulazione completa</span>
-        <h2>Per la pensione futura c'è già MyPension.</h2>
-        <p>MyPension usa i tuoi dati previdenziali reali e permette di modificare data di pensionamento, apporti di capitale, scala contributiva e altri parametri.</p>
-        <div class="mypension-points">
-          <span>✓ dati personali reali</span><span>✓ prestazioni future</span><span>✓ cambio scala</span><span>✓ scenari di pensionamento</span>
-        </div>
-        <a class="primary-link" href="https://mypension.aon.ch/SSEmployeelugano/PROD/SFY100001B" target="_blank" rel="noopener">Apri MyPension <span aria-hidden="true">↗</span></a>
-        <small>Il simulatore di questa pagina serve a capire rapidamente l'ordine di grandezza. MyPension resta il riferimento per la simulazione previdenziale personale.</small>
-      </article>
-    </section>
-
-    <section class="shell fullcalc-section">
-      <details class="fullcalc-card" id="fullCalcDetails">
-        <summary>
-          <span><span class="step-label">Calcolo completo</span><strong>Stai cambiando fascia d'età o non trovi la percentuale?</strong><small>Calcola la contribuzione partendo dalle regole CPdL disponibili per il 2026.</small></span>
-          <span class="open-icon" aria-hidden="true">＋</span>
-        </summary>
-        <div class="fullcalc-body">
-          <div class="rules-note"><strong>Attenzione.</strong> Deduzione di coordinamento, salario e parametri applicabili possono cambiare nel 2027. Questo calcolo è orientativo.</div>
-          <div class="form-grid four">
-            <label class="field"><span>Stipendio base annuo lordo</span><div class="money-input"><b>CHF</b><input id="grossAnnual" type="number" min="0" step="100" value="78000"></div><small>Importo annuo effettivo al tuo grado d'occupazione.</small></label>
-            <label class="field"><span>Grado di occupazione</span><div class="money-input suffix"><input id="employmentRate" type="number" min="1" max="100" step="1" value="100"><b>%</b></div></label>
-            <label class="field"><span>Fascia d'età LPP applicabile</span><select id="ageBand"><option value="18-19">18–19</option><option value="20-29">20–29</option><option value="30-39">30–39</option><option value="40-49" selected>40–49</option><option value="50-70">50–70</option></select></label>
-            <label class="field"><span>Scala attuale</span><select id="fullCurrentScale"><option value="1" selected>Scala 1</option><option value="2">Scala 2</option><option value="3">Scala 3</option></select></label>
-          </div>
-
-          <div class="calc-breakdown" id="calcBreakdown" aria-live="polite"></div>
-          <div class="scale-grid" id="fullScaleGrid" aria-live="polite"></div>
         </div>
       </details>
     </section>
 
-    <section class="shell rules-section">
-      <div class="rules-head"><div><span class="eyebrow">Regole utilizzate nel prototipo</span><h2>Trasparenti, così sai da dove arrivano i numeri.</h2></div><p>Le cifre di coordinamento e soglia sono quelle comunicate per il 2026 e sono parametrizzate nel codice per poterle aggiornare facilmente.</p></div>
-      <div class="rule-grid">
-        <div><strong>CHF 20'160</strong><span>stipendio annuo minimo lordo per l'assicurazione CPdL</span></div>
-        <div><strong>35%</strong><span>deduzione di coordinamento sul salario lordo</span></div>
-        <div><strong>CHF 26'460</strong><span>massimo coordinamento al 100%, ponderato per il grado</span></div>
-        <div><strong>CHF 13'200</strong><span>salario assicurato minimo indicato</span></div>
+    <section class="shell mypension-section">
+      <div class="mypension-copy">
+        <span class="eyebrow light">4 · Il passo successivo</span>
+        <h2>Vuoi sapere cosa cambia davvero sulla tua pensione futura?</h2>
+        <p>Qui ti aiutiamo a capire l'impatto sullo stipendio. Per simulare prestazioni future, età di pensionamento, apporti di capitale e cambio di scala con i tuoi dati previdenziali reali, usa <strong>MyPension</strong>.</p>
+        <a class="primary-link" href="https://mypension.aon.ch/SSEmployeelugano/PROD/SFY100001B" target="_blank" rel="noopener">Apri MyPension <span aria-hidden="true">↗</span></a>
       </div>
-      <div class="rate-table-wrap">
-        <table class="rate-table">
-          <thead><tr><th>Età LPP</th><th>Scala 1</th><th>Scala 2</th><th>Scala 3</th></tr></thead>
-          <tbody><tr><td>18–19</td><td>1.50%</td><td>1.50%</td><td>1.50%</td></tr><tr><td>20–29</td><td>8.35%</td><td>10.35%</td><td>12.35%</td></tr><tr><td>30–39</td><td>9.15%</td><td>11.15%</td><td>13.15%</td></tr><tr><td>40–49</td><td>10.00%</td><td>12.00%</td><td>14.00%</td></tr><tr><td>50–70</td><td>10.75%</td><td>12.75%</td><td>14.75%</td></tr></tbody>
-        </table>
+      <div class="mypension-panel">
+        <div><span>Questa pagina</span><strong>Capisci il costo mensile</strong><small>rapido, anonimo, senza login</small></div>
+        <i aria-hidden="true">→</i>
+        <div><span>MyPension</span><strong>Simuli la pensione futura</strong><small>con i tuoi dati previdenziali reali</small></div>
       </div>
     </section>
 
-    <section class="shell disclaimer">
-      <strong>Importante</strong>
-      <p>Il calcolo è effettuato autonomamente dall'utente sulla base dei dati inseriti e dei parametri conosciuti fino al 2026. Non costituisce una conferma dell'importo che sarà effettivamente trattenuto nel 2027, né una consulenza fiscale o una promessa di prestazione. Per una simulazione previdenziale personale utilizza MyPension o rivolgiti alla CPdL.</p>
+    <section class="shell advanced-section">
+      <details class="advanced-card" id="advancedDetails">
+        <summary><span><strong>Come viene fatta la prima stima?</strong><small>Parametri utilizzati, regole CPdL e calcolo avanzato.</small></span><span aria-hidden="true">＋</span></summary>
+        <div class="advanced-body">
+          <div class="rules-grid">
+            <div><strong>CHF 20'160</strong><span>soglia annua minima indicata per l'assicurazione CPdL</span></div>
+            <div><strong>35%</strong><span>deduzione di coordinamento sul salario lordo</span></div>
+            <div><strong>CHF 26'460</strong><span>massimo coordinamento 2026, ponderato per il grado d'occupazione</span></div>
+            <div><strong>CHF 13'200</strong><span>salario assicurato minimo indicato</span></div>
+          </div>
+          <p class="advanced-copy">Il salario assicurato viene stimato come salario annuo lordo meno deduzione di coordinamento, con arrotondamento ai CHF 100 superiori. I parametri 2027 potrebbero cambiare. Nel percorso rapido il lordo viene ricostruito dal netto con un modello orientativo; se inserisci la Base CP della busta paga, questa ricostruzione non serve più.</p>
+          <div class="rate-table-wrap">
+            <table class="rate-table">
+              <thead><tr><th>Età LPP</th><th>Scala 1</th><th>Scala 2</th><th>Scala 3</th></tr></thead>
+              <tbody>
+                <tr><td>18–19</td><td>1.50%</td><td>1.50%</td><td>1.50%</td></tr>
+                <tr><td>20–29</td><td>8.35%</td><td>10.35%</td><td>12.35%</td></tr>
+                <tr><td>30–39</td><td>9.15%</td><td>11.15%</td><td>13.15%</td></tr>
+                <tr><td>40–49</td><td>10.00%</td><td>12.00%</td><td>14.00%</td></tr>
+                <tr><td>50–70</td><td>10.75%</td><td>12.75%</td><td>14.75%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="rules-warning"><strong>Da confermare con HR/CPdL:</strong> regola esatta dell'età LPP, numero di trattenute CP annuali e parametri definitivi 2027.</div>
+        </div>
+      </details>
     </section>
   </main>
 
-  <footer class="site-footer"><div class="shell footer-inner"><div><strong>CPdL · Simulatore scala contributiva</strong><span>Prototipo v0.6 · ottobre 2026</span></div><p>Nessun dato personale viene trasmesso o salvato da questa pagina.</p></div></footer>
-  <script src="assets/app.js?v=0.6.0"></script>
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <div><strong>CPdL · Simulatore scala contributiva</strong><span>Prototipo orientativo · v0.7 · ottobre 2026</span></div>
+      <p>I risultati sono stime e non costituiscono conferma salariale, consulenza fiscale o promessa di prestazione. I valori 2027 potranno differire.</p>
+    </div>
+  </footer>
+
+  <script src="assets/app.js?v=0.7.0"></script>
 </body>
 </html>

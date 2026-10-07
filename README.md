@@ -1,30 +1,18 @@
-# CPdL · Simulatore scala contributiva v0.6
+# CPdL · Simulatore scala contributiva — v0.7
 
 Prototipo statico per GitHub Pages.
 
-## Novità v0.6
+## Logica UX
 
-- percorso rapido basato su trattenuta CPdL mensile + percentuale indicata in busta paga;
-- confronto Scale 1/2/3 con aliquote dipendente comunicate per il 2026;
-- netto mensile facoltativo, usato solo per mostrare l'effetto sul conto;
-- stima fiscale separata e affinabile;
-- rinvio esplicito a MyPension per la simulazione previdenziale completa;
-- calcolo completo alternativo da salario lordo, grado di occupazione, fascia d'età LPP e scala;
-- soglia di entrata, deduzione di coordinamento e salario assicurato parametrizzati;
-- nessun backend, nessuna autenticazione, nessun dato salvato.
+1. Si parte dal netto mensile ricevuto sul conto e dall'età.
+2. La busta paga è facoltativa: inserendo Base CP e percentuale CP la stima della trattenuta diventa molto più precisa.
+3. L'effetto fiscale parte da un'aliquota marginale semplificata e può essere affinato con dati aggiuntivi.
+4. Per le prestazioni previdenziali future si rinvia a MyPension.
 
 ## Pubblicazione
 
 Caricare `index.html`, `assets/`, `.nojekyll` e questo README nella root del repository GitHub Pages.
 
-## Parametri ancora da validare prima di un uso operativo
+## Importante
 
-- criterio esatto di determinazione dell'età LPP per il 2027;
-- conferma della ripartizione della contribuzione su 12/13 mensilità;
-- definizione definitiva degli elementi salariali inclusi nello stipendio base annuo lordo;
-- eventuale ponderazione del salario assicurato minimo per il grado di occupazione;
-- modello fiscale semplificato e dettagliato.
-
-## Nota
-
-Le cifre di coordinamento e le aliquote utilizzate sono quelle comunicate come valide sulla base delle informazioni disponibili fino al 2026. Il prototipo deve mantenere visibile l'avvertenza che i parametri possono cambiare per il 2027.
+Il modello resta orientativo. Alcuni parametri 2027 e il modello fiscale dettagliato devono essere validati da HR/CPdL prima dell'uso operativo.
