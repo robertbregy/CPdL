@@ -7,7 +7,7 @@
   <meta name="description" content="Simulatore orientativo CPdL per confrontare le scale contributive partendo dalla busta paga oppure da quanto ricevi sul conto.">
   <title>CPdL · Quanto cambia sullo stipendio?</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/style.css?v=0.11.0">
+  <link rel="stylesheet" href="assets/style.css?v=0.12.0">
 </head>
 <body>
   <header class="site-header">
@@ -251,13 +251,13 @@
           <div class="step-badge">3</div>
           <div>
             <span class="step-kicker">Facoltativo</span>
-            <h2 id="tax-title">Vuoi vedere anche l'effetto sulle tasse?</h2>
+            <h2 id="tax-title">Vuoi vedere anche l'effetto sulle imposte?</h2>
             <p>Facciamo una stima semplice dell'ordine di grandezza. Non è un calcolo fiscale ufficiale.</p>
           </div>
         </div>
         <div class="tax-summary">
-          <div><span>Risparmio fiscale indicativo sulla scala selezionata</span><strong id="taxSavingOut">–</strong><small id="taxSavingNote">Seleziona una scala diversa da quella di riferimento.</small></div>
-          <button type="button" class="secondary-button" id="taxMoreButton">Rendi la stima fiscale più precisa</button>
+          <div><span>Risparmio d'imposta indicativo sulla scala selezionata</span><strong id="taxSavingOut">–</strong><small id="taxSavingNote">Seleziona una scala diversa da quella di riferimento.</small></div>
+          <button type="button" class="secondary-button" id="taxMoreButton">Rendi la stima sulle imposte più precisa</button>
         </div>
         <div class="tax-detail" id="taxDetail" hidden>
           <div class="form-grid cols-2">
@@ -267,7 +267,7 @@
             <label class="field"><span>Imposta alla fonte</span><select id="sourceTax"><option value="no">No</option><option value="yes">Sì</option></select></label>
             <label class="field" id="spouseWrap" hidden><span>Reddito annuo indicativo del coniuge</span><select id="spouseIncome"><option value="0">Nessun reddito</option><option value="30000">Fino a CHF 50'000</option><option value="75000">CHF 50'000–100'000</option><option value="125000">Oltre CHF 100'000</option></select></label>
           </div>
-          <div class="model-warning"><strong>Stima fiscale preliminare.</strong> La fiscalità personale dipende da molti fattori. Questi dati servono solo ad affinare l'ordine di grandezza.</div>
+          <div class="model-warning"><strong>Stima indicativa delle imposte.</strong> Le imposte personali dipendono da molti fattori. Questi dati servono solo ad affinare l'ordine di grandezza.</div>
         </div>
       </section>
 
@@ -284,7 +284,7 @@
         <summary>Informazioni tecniche e limiti della simulazione</summary>
         <div>
           <p>Se parti dal conto, la prima stima ricostruisce indicativamente la situazione usando i parametri disponibili per il 2026. Se parti dalla busta paga e inserisci almeno due dati della riga CP, il calcolo della trattenuta è molto più preciso.</p>
-          <p>I parametri 2027 possono cambiare. Il risultato non costituisce una conferma salariale, fiscale o previdenziale. Per la simulazione delle prestazioni future fa stato MyPension.</p>
+          <p>I parametri 2027 possono cambiare. Il risultato non costituisce una conferma salariale, un calcolo ufficiale delle imposte o una simulazione previdenziale ufficiale. Per la simulazione delle prestazioni future fa stato MyPension.</p>
         </div>
       </details>
 
@@ -302,6 +302,6 @@
     </div>
   </footer>
 
-  <script src="assets/app.js?v=0.11.0"></script>
+  <script src="assets/app.js?v=0.12.0"></script>
 </body>
 </html>

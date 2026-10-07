@@ -40,3 +40,21 @@
 .fiscal-impact-main .fiscal-disclaimer{display:block;color:var(--muted);font-size:10px;margin-top:8px}
 .summary-panel{padding:26px}
 @media(max-width:560px){.fiscal-impact-main{padding:18px}.fiscal-main-number>strong{font-size:38px}.fiscal-breakdown{grid-template-columns:1fr}.summary-panel{padding:18px}}
+
+
+/* v0.12 - make the tax-adjusted economic impact impossible to miss */
+.fiscal-impact-main{background:rgba(255,255,255,.10)!important;color:#fff!important;border:1px solid rgba(255,255,255,.20)!important;box-shadow:none!important;padding:22px 24px!important}
+.fiscal-message{padding:0 0 20px!important;border-bottom:1px solid rgba(255,255,255,.18)!important}
+.fiscal-message>span{display:block!important;color:#d7e9f8!important;font-size:15px!important;line-height:1.35!important;text-transform:none!important;letter-spacing:0!important;font-weight:750!important;margin-bottom:8px!important}
+.fiscal-message>strong{display:block!important;color:#fff!important;font-size:clamp(26px,3.6vw,40px)!important;line-height:1.12!important;letter-spacing:-.035em!important;font-weight:850!important}
+.fiscal-message>strong b{display:inline-block!important;color:#fff!important;background:#1a765e!important;border-radius:12px!important;padding:5px 10px!important;white-space:nowrap!important;font-weight:900!important}
+.fiscal-impact-main .fiscal-breakdown{margin-top:18px!important}
+.fiscal-impact-main .fiscal-breakdown>div{background:rgba(255,255,255,.10)!important;border:1px solid rgba(255,255,255,.16)!important}
+.fiscal-impact-main .fiscal-breakdown span{color:#cfe0f0!important}
+.fiscal-impact-main .fiscal-breakdown strong{color:#fff!important}
+.fiscal-impact-main .fiscal-breakdown>div:nth-child(2) strong{color:#d8f6e9!important}
+.fiscal-impact-main .fiscal-breakdown small{color:#cfe0f0!important}
+.fiscal-impact-main>p{color:#e3eff9!important;font-size:15px!important;line-height:1.5!important;margin-top:16px!important}
+.fiscal-impact-main .fiscal-disclaimer{color:#c2d7e8!important;font-size:11px!important}
+.summary-secondary-title{font-size:12px!important;margin-bottom:14px!important}
+@media(max-width:560px){.fiscal-impact-main{padding:18px!important}.fiscal-message>span{font-size:14px!important}.fiscal-message>strong{font-size:26px!important}.fiscal-message>strong b{white-space:normal!important}.fiscal-impact-main>p{font-size:14px!important}}

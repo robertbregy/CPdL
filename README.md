@@ -1,8 +1,8 @@
-# CPdL · Simulatore scala contributiva — v0.11
+# CPdL · Simulatore scala contributiva — v0.12
 
 Prototipo statico per GitHub Pages. Tutti i calcoli avvengono localmente nel browser.
 
-## Novità v0.11
+## Novità v0.12
 
 - Due percorsi di ingresso equivalenti: **Ho la busta paga** / **Non ho la busta paga**.
 - Il percorso busta paga richiede almeno due valori tra Base, Percentuale e Importo della riga «Contributo ordinario CP» e l'età.
@@ -10,7 +10,7 @@ Prototipo statico per GitHub Pages. Tutti i calcoli avvengono localmente nel bro
 - I due percorsi confluiscono nello stesso confronto Scala 1/2/3.
 - Chi parte dal conto può aggiungere la busta paga più tardi senza ricominciare.
 - Chi parte dalla busta paga può aggiungere il netto mensile per vedere anche il nuovo importo stimato sul conto.
-- Fiscalità indicativa separata e collegamento a MyPension per le prestazioni future.
+- Stima indicativa delle imposte separata e collegamento a MyPension per le prestazioni future.
 
 ## Pubblicazione
 

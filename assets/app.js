@@ -149,7 +149,7 @@
     const taxSaving=x.annualDelta>0?x.annualDelta*tax:0;
     const economic=(x.annualDelta-taxSaving)/P.cpPaymentsPerYear;
     const savingMonthlyCard=taxSaving/P.cpPaymentsPerYear;
-    const fiscalBlock=x.annualDelta>0?`<div class="after-tax-impact primary-tax-impact"><span>Costo stimato dopo l'effetto fiscale</span><strong>≈ ${money2(Math.abs(economic))} / mese</strong><small>Trattenuta: ${money2(Math.abs(x.delta))} · recupero fiscale stimato: ${money2(savingMonthlyCard)}/mese</small></div>`:'';
+    const fiscalBlock=x.annualDelta>0?`<div class="after-tax-impact primary-tax-impact"><span>Costo stimato dopo le imposte</span><strong>≈ ${money2(Math.abs(economic))} / mese</strong><small>Trattenuta: ${money2(Math.abs(x.delta))} · risparmio d'imposta stimato: ${money2(savingMonthlyCard)}/mese</small></div>`:'';
     return `<button type="button" class="scale-card ${selected?'selected':''}" data-scale="${x.scale}" aria-pressed="${selected}">
       <div class="scale-top"><h3>Scala ${x.scale}</h3><span class="scale-tag">${isCurrent?'attuale':selected?'selezionata':'confronto'}</span></div>
       <div class="scale-description">${desc}</div>
@@ -176,13 +176,16 @@
       ? `<div class="summary-item"><span>Netto sul conto stimato</span><strong>${money(x.netAfter)}</strong></div>`
       : `<div class="summary-item"><span>Differenza mensile stimata</span><strong>${same?'–':money2(Math.abs(x.delta))}</strong></div>`;
     const fiscalHero=!same&&x.annualDelta>0?`<div class="fiscal-impact-hero fiscal-impact-main">
-        <div class="fiscal-main-number"><span>Quanto ti costerebbe davvero, circa</span><strong>≈ ${money2(Math.abs(economic))} <em>/ mese</em></strong><small>dopo una stima semplice dell'effetto fiscale</small></div>
+        <div class="fiscal-message">
+          <span>Tenendo conto di una stima delle imposte</span>
+          <strong>l'impatto economico potrebbe essere circa <b>≈ ${money2(Math.abs(economic))} / mese</b></strong>
+        </div>
         <div class="fiscal-breakdown">
           <div><span>Trattenuta CP in più</span><strong>${money2(Math.abs(x.delta))}/mese</strong></div>
-          <div><span>Recupero fiscale stimato</span><strong>− ${money2(savingMonthly)}/mese</strong><small>${money(saving)} circa all'anno</small></div>
+          <div><span>Risparmio d'imposta stimato</span><strong>− ${money2(savingMonthly)}/mese</strong><small>${money(saving)} circa all'anno</small></div>
         </div>
-        <p><b>Il numero da guardare è quello sopra.</b> La trattenuta sullo stipendio aumenta di più, ma una parte può essere recuperata fiscalmente.</p>
-        <small class="fiscal-disclaimer">Stima indicativa: l'effetto fiscale reale dipende dalla situazione personale.</small>
+        <p>La trattenuta sullo stipendio aumenta di più, ma una parte può essere compensata da un risparmio d'imposta.</p>
+        <small class="fiscal-disclaimer">Stima indicativa: il risparmio d'imposta reale dipende dalla situazione personale.</small>
       </div>`:'';
     $('summaryPanel').innerHTML=`${same?`<h3>Questa è la situazione di riferimento.</h3><p>Seleziona un’altra scala per vedere la differenza.</p>`:`<div class="summary-secondary-title">Scala ${x.scale} · confronto con la situazione attuale</div>${fiscalHero}`}
       <div class="summary-grid">
@@ -195,7 +198,7 @@
   function renderTax(s,scenarios){
     const x=scenarios.find(v=>v.scale===selectedScale)||scenarios[1];
     const rate=effectiveTaxRate(s);
-    if(x.annualDelta<=0){$('taxSavingOut').textContent='–';$('taxSavingNote').textContent='Nessun risparmio fiscale aggiuntivo stimato per questa scelta.';return;}
+    if(x.annualDelta<=0){$('taxSavingOut').textContent='–';$('taxSavingNote').textContent="Nessun risparmio d'imposta aggiuntivo stimato per questa scelta.";return;}
     const saving=x.annualDelta*rate;
     $('taxSavingOut').textContent=`${money(saving)} / anno`;
     $('taxSavingNote').textContent=`Ordine di grandezza stimato con un'aliquota marginale di circa ${Math.round(rate*100)}%.`;
@@ -278,7 +281,7 @@
   });
   $('refineNet').addEventListener('input',renderAll);
 
-  $('taxMoreButton').addEventListener('click',()=>{$('taxDetail').hidden=!$('taxDetail').hidden;$('taxMoreButton').textContent=$('taxDetail').hidden?'Rendi la stima fiscale più precisa':'Nascondi i dettagli fiscali';renderAll();});
+  $('taxMoreButton').addEventListener('click',()=>{$('taxDetail').hidden=!$('taxDetail').hidden;$('taxMoreButton').textContent=$('taxDetail').hidden?"Rendi la stima sulle imposte più precisa":"Nascondi i dettagli sulle imposte";renderAll();});
   ['municipality','marital','children','sourceTax','spouseIncome'].forEach(id=>{const el=$(id);el.addEventListener('input',renderAll);el.addEventListener('change',renderAll);});
   $('scaleGrid').addEventListener('click',e=>{const card=e.target.closest('[data-scale]');if(!card)return;selectedScale=Number(card.dataset.scale);renderAll();});
 
@@ -287,7 +290,7 @@
     startMode=null;started=false;selectedScale=2;refinedPayslip=false;
     document.querySelectorAll('input[type="number"]').forEach(el=>el.value='');
     document.querySelector('input[name="salaryMonths"][value="unknown"]').checked=true;
-    $('taxDetail').hidden=true;$('taxMoreButton').textContent='Rendi la stima fiscale più precisa';
+    $('taxDetail').hidden=true;$('taxMoreButton').textContent="Rendi la stima sulle imposte più precisa";
     $('municipality').value='lugano';$('marital').value='single';$('children').value='0';$('sourceTax').value='no';$('spouseIncome').value='0';
     $('payslipRefinePanel').hidden=true;$('resultsSection').hidden=true;$('payslipStart').hidden=true;$('bankStart').hidden=true;
     $('payslipStartMessage').textContent='';$('bankStartMessage').textContent='';$('refineMessage').textContent='';
