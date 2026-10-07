@@ -27,11 +27,12 @@
     <section class="hero shell">
       <div class="hero-copy">
         <div class="eyebrow">Scala contributiva 2027</div>
-        <h1>Quanto ti costa davvero<br />aumentare la tua pensione?</h1>
-        <p class="hero-lead">Parti da un solo dato: <strong>quanto ricevi normalmente sul conto ogni mese</strong>. Il simulatore costruisce una prima stima e, solo se vuoi, la rende progressivamente più precisa.</p>
+        <h1>Quanto ti costa oggi<br />versare di più per la pensione?</h1>
+        <p class="hero-lead">Parti da un solo dato: <strong>quanto ricevi normalmente sul conto ogni mese</strong>. Vedi subito cosa cambierebbe e, solo se vuoi, aggiungi informazioni per affinare la stima.</p>
         <div class="hero-badges" aria-label="Caratteristiche del simulatore">
           <span>30 secondi per iniziare</span><span>nessun login</span><span>13 mensilità</span><span>calcolo nel browser</span>
         </div>
+      <a class="hero-cta" href="#simulatore">Inizia la simulazione <span aria-hidden="true">↓</span></a>
       </div>
       <div class="hero-visual" aria-hidden="true">
         <svg viewBox="0 0 680 420" role="img">
@@ -60,7 +61,7 @@
       </div>
     </section>
 
-    <section class="shell simulator-wrap" aria-labelledby="sim-title">
+    <section class="shell simulator-wrap" id="simulatore" aria-labelledby="sim-title">
       <div class="sim-head">
         <div>
           <div class="eyebrow">1 · Stima rapida</div>
@@ -81,14 +82,14 @@
           <small id="net-help">Importo netto normalmente accreditato sul conto.</small>
         </label>
         <label class="select-field">
-          <span>Scala attuale</span>
+          <span>Sai qual è la tua scala attuale? <em>facoltativo</em></span>
           <select id="currentScale">
             <option value="unknown" selected>Non lo so</option>
             <option value="1">Scala 1</option>
             <option value="2">Scala 2</option>
             <option value="3">Scala 3</option>
           </select>
-          <small>Se non la sai, partiamo dalla Scala 1 e lo segnaliamo.</small>
+          <small>Se non la sai, va bene: per la prima stima usiamo la Scala 1 come riferimento.</small>
         </label>
       </div>
 
@@ -99,7 +100,7 @@
 
       <div class="results-header">
         <div><span class="eyebrow">Risultato immediato</span><h3>Cosa cambierebbe ogni mese</h3></div>
-        <div class="view-note">Valori stimati · 13 mensilità</div>
+        <div class="results-actions"><span class="view-note">Valori stimati · 13 mensilità</span><button type="button" class="reset-button" id="resetButton">Ricomincia</button></div>
       </div>
       <div class="scale-grid" id="scaleGrid" aria-live="polite"></div>
 
@@ -114,12 +115,12 @@
         <details class="step-card" id="salaryStep">
           <summary>
             <span class="step-number">2</span>
-            <span class="step-title"><strong>Migliora la stima dello stipendio</strong><small>Età, lordo e salario assicurato se li conosci</small></span>
+            <span class="step-title"><strong>Migliora la stima dello stipendio</strong><small>Aggiungi solo i dati che conosci</small></span>
             <span class="step-status" id="salaryStatus">Facoltativo</span>
           </summary>
           <div class="step-body">
             <div class="form-grid cols-3">
-              <label><span>Età</span><input id="age" type="number" min="18" max="70" value="45" /></label>
+              <label><span>Età <em>facoltativo</em></span><input id="age" type="number" min="18" max="70" placeholder="es. 45" /></label>
               <label><span>Stipendio lordo mensile <em>facoltativo</em></span><div class="inline-money"><b>CHF</b><input id="grossMonthly" type="number" min="0" max="50000" step="50" placeholder="Se lo sai" /></div></label>
               <label><span>Salario assicurato annuo CPdL <em>facoltativo</em></span><div class="inline-money"><b>CHF</b><input id="insuredAnnual" type="number" min="0" max="500000" step="100" placeholder="Dal certificato CPdL" /></div></label>
             </div>
@@ -134,7 +135,7 @@
         <details class="step-card" id="taxStep">
           <summary>
             <span class="step-number">3</span>
-            <span class="step-title"><strong>Rendi più precisa la stima fiscale</strong><small>Partiamo da un'aliquota marginale semplificata</small></span>
+            <span class="step-title"><strong>Approfondisci la stima fiscale</strong><small>Partiamo da un'aliquota marginale semplificata</small></span>
             <span class="step-status" id="taxStatus">Stima automatica</span>
           </summary>
           <div class="step-body">
@@ -144,7 +145,7 @@
                 <strong id="taxRateOut">–</strong>
                 <small id="taxModeOut">stima semplificata in base al reddito</small>
               </div>
-              <label class="switch-row"><input id="taxDetailToggle" type="checkbox" /><span class="switch" aria-hidden="true"></span><span>Voglio una stima fiscale più precisa</span></label>
+              <label class="switch-row"><input id="taxDetailToggle" type="checkbox" /><span class="switch" aria-hidden="true"></span><span>Voglio aggiungere dettagli fiscali</span></label>
             </div>
 
             <div class="tax-detail" id="taxDetail" hidden>
@@ -155,7 +156,7 @@
                 <label><span>Imposta alla fonte</span><select id="sourceTax"><option value="no">No</option><option value="yes">Sì</option></select></label>
                 <label id="spouseWrap" hidden><span>Reddito annuo indicativo del coniuge</span><select id="spouseIncome"><option value="0">Nessun reddito</option><option value="30000">Fino a CHF 50'000</option><option value="75000">CHF 50'000–100'000</option><option value="125000">Oltre CHF 100'000</option></select></label>
               </div>
-              <div class="prototype-warning"><strong>Nota prototipo.</strong> Questi correttivi servono a mostrare l'esperienza utente. Prima della pubblicazione vanno sostituiti con il modello fiscale approvato.</div>
+              <div class="prototype-warning"><strong>Versione di test.</strong> I dettagli fiscali mostrano il funzionamento del percorso. Le regole definitive saranno inserite dopo la validazione del modello fiscale.</div>
             </div>
           </div>
         </details>
@@ -181,7 +182,7 @@
     <section class="decision-section shell" id="decisione">
       <div class="decision-copy">
         <span class="eyebrow">La decisione, senza gergo</span>
-        <h2>Quanto esce in più oggi.<br />Quanto può restare a te domani.</h2>
+        <h2>Quanto cambia oggi.<br />Quanto può cambiare la tua previdenza domani.</h2>
         <p>Il simulatore mette davanti le tre scale e separa sempre tre cose diverse: <strong>trattenuta sullo stipendio</strong>, <strong>effetto fiscale stimato</strong> e <strong>risparmio previdenziale aggiuntivo</strong>.</p>
       </div>
       <div class="decision-card" id="decisionCard" aria-live="polite"></div>
@@ -203,16 +204,20 @@
       </div>
     </section>
 
-    <section class="missing shell" id="mancanti">
-      <div class="missing-head"><span class="eyebrow">Per passare da prototipo a servizio</span><h2>Le informazioni che ci mancano</h2><p>Non sono molte. Ma sono quelle che separano un simulatore credibile da una macchina per produrre numeri decorativi.</p></div>
-      <div class="missing-grid">
-        <article><span>01</span><h3>Reverse payroll Città</h3><p>Trattenute effettive 2027 a carico del collaboratore e trattamento della tredicesima, per ricostruire il lordo partendo dal netto mensile.</p></article>
-        <article><span>02</span><h3>Salario assicurato CPdL</h3><p>Formula esatta dal lordo al salario assicurato, con eventuale deduzione di coordinamento, soglie, minimi, massimi ed eccezioni.</p></article>
-        <article><span>03</span><h3>Fisco</h3><p>Modello di aliquote marginali semplificate per la stima iniziale e tabelle/regole da usare quando l'utente aggiunge Comune, famiglia e altri dati.</p></article>
-        <article><span>04</span><h3>Proiezione previdenziale</h3><p>Assunzioni ufficiali per remunerazione futura, pensionamento e conversione del capitale aggiuntivo in rendita.</p></article>
-        <article><span>05</span><h3>Casi particolari</h3><p>Part-time, entrate/uscite in corso d'anno, congedi, indennità, salari fuori standard e altre situazioni che richiedono regole specifiche.</p></article>
-        <article><span>06</span><h3>Passo finale</h3><p>Modulo o procedura con cui, dopo la simulazione, l'assicurato può formalizzare il cambio di scala senza introdurre un login nel simulatore.</p></article>
-      </div>
+    <section class="prototype-notes shell" id="mancanti">
+      <details class="prototype-details">
+        <summary><span><strong>Versione di test</strong><small>Vedi quali parametri devono ancora essere validati prima dell'uso reale</small></span><span aria-hidden="true">＋</span></summary>
+        <div class="prototype-details-body">
+          <p>La UX è già funzionante; alcuni calcoli usano ancora parametri provvisori. Per la versione operativa servono:</p>
+          <ul>
+            <li>trattenute salariali effettive della Città e trattamento della tredicesima;</li>
+            <li>formula CPdL del salario assicurato;</li>
+            <li>modello fiscale semplificato e dettaglio fiscale validato;</li>
+            <li>parametri CPdL per proiezione e conversione delle prestazioni;</li>
+            <li>regole per casi particolari e procedura finale di cambio scala.</li>
+          </ul>
+        </div>
+      </details>
     </section>
   </main>
 
