@@ -1,8 +1,8 @@
-# CPdL - Simulatore scala contributiva - v0.23
+# CPdL - Simulatore scala contributiva - v0.24
 
 Prototipo statico per GitHub Pages. Tutti i calcoli avvengono nel browser; i dati inseriti non vengono inviati o salvati.
 
-## Aggiornamenti v0.23
+## Aggiornamenti v0.24
 
 - corretto definitivamente il contrasto dei testi nel riepilogo bianco;
 - aggiunta una stima indicativa della maggiore/minore rendita a 65 anni dovuta alla sola scelta di scala;

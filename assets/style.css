@@ -360,3 +360,35 @@
 .pension-key-card .projection-result em{font-style:normal!important;font-size:.5em!important;color:#60778b!important;font-weight:800!important;margin-left:4px!important}
 @media(max-width:900px){.pension-projection{grid-template-columns:1fr 1fr!important}}
 @media(max-width:560px){.pension-projection{grid-template-columns:1fr!important}}
+
+
+/* v0.24 - hard contrast override for explanatory copy */
+.fiscal-impact-main.fiscal-balanced > p.balanced-explanation,
+.fiscal-impact-main.fiscal-balanced > p.balanced-explanation.pension-explanation,
+.fiscal-impact-main.fiscal-balanced > p.balanced-explanation.tax-explanation{
+  color:#10283d!important;
+  -webkit-text-fill-color:#10283d!important;
+  opacity:1!important;
+  background:#eef4f8!important;
+  border:1px solid #d7e4ee!important;
+  border-radius:10px!important;
+  padding:10px 12px!important;
+  margin-top:10px!important;
+}
+.fiscal-impact-main.fiscal-balanced > p.balanced-explanation *,
+.fiscal-impact-main.fiscal-balanced > p.balanced-explanation.pension-explanation *,
+.fiscal-impact-main.fiscal-balanced > p.balanced-explanation.tax-explanation *{
+  color:#10283d!important;
+  -webkit-text-fill-color:#10283d!important;
+  opacity:1!important;
+}
+.fiscal-impact-main.fiscal-balanced > small.fiscal-disclaimer{
+  color:#314a60!important;
+  -webkit-text-fill-color:#314a60!important;
+  opacity:1!important;
+}
+.fiscal-impact-main.fiscal-balanced > small.fiscal-disclaimer *{
+  color:#10283d!important;
+  -webkit-text-fill-color:#10283d!important;
+  opacity:1!important;
+}
