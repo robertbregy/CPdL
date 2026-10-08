@@ -331,3 +331,32 @@
   .pension-projection{grid-template-columns:1fr}
   .pension-value-row .projection-result,.pension-key-card .projection-result{font-size:28px!important}
 }
+
+
+/* v0.23 - pension estimate and definitive contrast fix */
+.fiscal-impact-main.fiscal-balanced > p.balanced-explanation,
+.fiscal-impact-main.fiscal-balanced > p.balanced-explanation.pension-explanation,
+.fiscal-impact-main.fiscal-balanced > p.balanced-explanation.tax-explanation{
+  color:#314a60!important;
+}
+.fiscal-impact-main.fiscal-balanced > p.balanced-explanation strong,
+.fiscal-impact-main.fiscal-balanced > p.balanced-explanation.pension-explanation strong,
+.fiscal-impact-main.fiscal-balanced > p.balanced-explanation.tax-explanation strong{
+  color:#10283d!important;
+}
+.fiscal-impact-main.fiscal-balanced > small.fiscal-disclaimer{
+  display:block!important;
+  color:#455f75!important;
+  font-size:11px!important;
+  line-height:1.5!important;
+  margin-top:10px!important;
+}
+.fiscal-impact-main.fiscal-balanced > small.fiscal-disclaimer strong{color:#10283d!important}
+.pension-projection{grid-template-columns:repeat(4,1fr)!important}
+.pension-projection>div{min-width:0}
+.pension-projection small{display:block;color:#526a80!important;font-size:10px!important;line-height:1.35!important;margin-top:5px!important}
+.pension-rent-card{background:#f1f7fc!important;border-color:#b9d1e6!important}
+.pension-rent-card strong{font-size:20px!important}
+.pension-key-card .projection-result em{font-style:normal!important;font-size:.5em!important;color:#60778b!important;font-weight:800!important;margin-left:4px!important}
+@media(max-width:900px){.pension-projection{grid-template-columns:1fr 1fr!important}}
+@media(max-width:560px){.pension-projection{grid-template-columns:1fr!important}}

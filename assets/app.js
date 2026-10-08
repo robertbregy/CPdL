@@ -19,6 +19,8 @@
     inpRate: 0.0113,
     socialMonthlyCap: 12350,
     cpPaymentsPerYear: 12,
+    retirementProjectionAge: 65,
+    retirementConversionRate65: 0.0585,
     rates: {
       '18-19': { 1: 0.015, 2: 0.015, 3: 0.015 },
       '20-29': { 1: 0.0835, 2: 0.1035, 3: 0.1235 },
@@ -432,6 +434,12 @@
     const contributionFiveYears = contributionAnnual * 5;
     const contributionTenYears = contributionAnnual * 10;
     const projectionDirection = x.decisionDelta >= 0 ? 'in più' : 'in meno';
+    const yearsTo65 = Math.max(0, P.retirementProjectionAge - s.age2027);
+    const projectedExtraCapital65 = contributionAnnual * yearsTo65;
+    const projectedAnnualPension65 = projectedExtraCapital65 * P.retirementConversionRate65;
+    const projectedMonthlyPension65 = projectedAnnualPension65 / 12;
+    const pensionDirection = x.decisionDelta >= 0 ? 'in più' : 'in meno';
+    const retirementProjectionAvailable = yearsTo65 > 0 && contributionAnnual > 0;
 
     const netBlock = Number.isFinite(x.netAfter)
       ? `<div class="summary-item"><span>Netto mensile 2027 stimato</span><strong>${money(x.netAfter)}</strong></div>`
@@ -461,20 +469,22 @@
             </div>
             ${fiscalCard}
             <div class="fiscal-equal-card pension-key-card">
-              <span>Se mantenessi questa scelta per 10 anni</span>
-              <strong class="projection-result">≈ ${money(contributionTenYears)}</strong>
-              <small>di contributi CP ${projectionDirection} rispetto alla scala di riferimento</small>
+              <span>${retirementProjectionAvailable ? `Stima della rendita a ${P.retirementProjectionAge} anni` : 'Proiezione previdenziale'}</span>
+              ${retirementProjectionAvailable
+                ? `<strong class="projection-result">≈ ${money2(projectedMonthlyPension65)}<em>/ mese</em></strong><small>di rendita ${pensionDirection}, riferita alla sola differenza di scala</small>`
+                : `<strong class="text-result">Da verificare</strong><small>per la tua età usa MyPension o la Cassa Pensioni</small>`}
             </div>
           </div>
-          <div class="pension-projection" aria-label="Proiezione indicativa dei contributi CP">
-            <div><span>1 anno</span><strong>≈ ${money(contributionAnnual)}</strong></div>
-            <div><span>5 anni</span><strong>≈ ${money(contributionFiveYears)}</strong></div>
-            <div><span>10 anni</span><strong>≈ ${money(contributionTenYears)}</strong></div>
+          <div class="pension-projection" aria-label="Proiezione previdenziale indicativa">
+            <div><span>Contributi CP in 1 anno</span><strong>≈ ${money(contributionAnnual)}</strong></div>
+            <div><span>Contributi CP in 10 anni</span><strong>≈ ${money(contributionTenYears)}</strong></div>
+            <div><span>${retirementProjectionAvailable ? `Capitale aggiuntivo a ${P.retirementProjectionAge} anni` : 'Proiezione a 65 anni'}</span><strong>${retirementProjectionAvailable ? `≈ ${money(projectedExtraCapital65)}` : '–'}</strong></div>
+            <div class="pension-rent-card"><span>${retirementProjectionAvailable ? `Rendita annua stimata a ${P.retirementProjectionAge} anni` : 'Rendita stimata'}</span><strong>${retirementProjectionAvailable ? `≈ ${money(projectedAnnualPension65)} / anno` : 'Da verificare'}</strong><small>${retirementProjectionAvailable ? `≈ ${money2(projectedMonthlyPension65)} / mese ${pensionDirection}` : 'MyPension / Cassa Pensioni'}</small></div>
           </div>
           <p class="balanced-explanation"><strong>Il punto essenziale:</strong> la trattenuta aggiuntiva è quella che incide davvero sul netto mensile. Il valore “dopo le imposte” è un equivalente economico stimato: il beneficio fiscale si manifesta nelle imposte, non riducendo la trattenuta CP in busta paga.</p>
-          <p class="balanced-explanation pension-explanation"><strong>Proiezione previdenziale indicativa:</strong> gli importi sopra mostrano soltanto i <strong>maggiori o minori contributi CP cumulati</strong> se salario assicurato e scala restassero invariati. Aliquota CP 2027: <strong>${(referenceRate * 100).toFixed(2)}% → ${(x.rate * 100).toFixed(2)}%</strong> (${rateDeltaPoints > 0 ? '+' : '−'}${Math.abs(rateDeltaPoints).toFixed(2)} punti percentuali).</p>
+          <p class="balanced-explanation pension-explanation"><strong>Proiezione previdenziale indicativa:</strong> la stima considera soltanto la <strong>differenza generata dalla scala scelta</strong>. Assume salario assicurato e scala invariati fino a 65 anni e, per prudenza, non attribuisce interessi ai contributi aggiuntivi. Per tradurre il capitale aggiuntivo in rendita usa un tasso di conversione indicativo del <strong>5.85%</strong>, coerente con l’esempio attualmente pubblicato dalla CPdL per una rendita ordinaria a 65 anni. Aliquota CP 2027: <strong>${(referenceRate * 100).toFixed(2)}% → ${(x.rate * 100).toFixed(2)}%</strong> (${rateDeltaPoints > 0 ? '+' : '−'}${Math.abs(rateDeltaPoints).toFixed(2)} punti percentuali).</p>
           <p class="balanced-explanation tax-explanation">${fiscalExplanation}</p>
-          <small class="fiscal-disclaimer"><strong>Importante:</strong> questa non è una previsione del capitale o della rendita futura. La proiezione non considera interessi, evoluzione salariale, variazioni del grado d’occupazione, durata effettiva dell’assicurazione, pensionamento, modifiche regolamentari o altri eventi previdenziali. Per calcoli personali e precisi fanno stato MyPension e le indicazioni della Cassa Pensioni di Lugano.</small>
+          <small class="fiscal-disclaimer"><strong>Importante:</strong> la rendita mostrata è un <strong>ordine di grandezza della sola differenza</strong> imputabile alla scelta della scala, non una previsione della rendita complessiva. Tasso di conversione, remunerazione dell’avere, salario, grado d’occupazione, età/data effettiva di pensionamento, regolamento e altri parametri possono cambiare. Per una simulazione personale e precisa fanno stato <strong>MyPension</strong> e le indicazioni della <strong>Cassa Pensioni di Lugano</strong>.</small>
         </div>`;
 
     $('summaryPanel').innerHTML = `<div class="summary-secondary-title">Scala ${x.scale} · confronto con la scala di riferimento nel 2027</div>${hero}
