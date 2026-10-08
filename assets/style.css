@@ -233,3 +233,23 @@
   .quick-tax-field{width:100%}
   .quick-tax-field select{width:100%;min-height:50px}
 }
+
+/* v0.21 - third decision signal = contribution rate, not duplicated money */
+.pension-value-row .rate-result,
+.pension-key-card .rate-result{
+  font-size:clamp(20px,2.25vw,29px)!important;
+  letter-spacing:-.035em!important;
+  white-space:nowrap;
+}
+.card-pension-note{font-size:10px;color:var(--muted);line-height:1.4;padding:3px 2px 0}
+.card-pension-note strong{color:var(--ink2);font-weight:900}
+.pension-explanation{margin-top:8px!important;font-size:12px!important;color:var(--ink2)!important}
+.mypension-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.mypension-button.secondary-contact{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.45)}
+.mypension-button.secondary-contact:hover{background:rgba(255,255,255,.08)}
+@media(max-width:820px){.mypension-actions{justify-content:flex-start}}
+@media(max-width:560px){
+  .pension-value-row .rate-result,.pension-key-card .rate-result{font-size:22px!important;white-space:normal}
+  .mypension-actions{width:100%;flex-direction:column}
+  .mypension-actions .mypension-button{width:100%}
+}

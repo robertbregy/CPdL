@@ -331,11 +331,9 @@
         ? 'Trattenuta in più sullo stipendio'
         : 'Trattenuta in meno sullo stipendio';
 
-    const pensionLabel = isNeutral
-      ? 'Differenza destinata alla previdenza'
-      : delta > 0
-        ? 'In più nella tua previdenza'
-        : 'In meno nella tua previdenza';
+    const referenceRate = P.rates[s.band2027][s.currentScale];
+    const rateDeltaPoints = (x.rate - referenceRate) * 100;
+    const contributionLabel = 'Aliquota contributiva CP 2027';
 
     let taxRow;
     let taxNote;
@@ -361,8 +359,13 @@
       }
     }
 
-    const pensionMonthly = Math.abs(delta);
-    const pensionAnnual = Math.abs(x.annualDecisionDelta);
+    const contributionAnnual = Math.abs(x.annualDecisionDelta);
+    const rateTransition = isNeutral
+      ? `${(x.rate * 100).toFixed(2)}%`
+      : `${(referenceRate * 100).toFixed(2)}% → ${(x.rate * 100).toFixed(2)}%`;
+    const rateDeltaLabel = isNeutral
+      ? 'scala di riferimento'
+      : `${rateDeltaPoints > 0 ? '+' : '−'}${Math.abs(rateDeltaPoints).toFixed(2)} punti percentuali`;
 
     const netBlock = Number.isFinite(x.netAfter)
       ? `<div class="account-estimate">
@@ -386,11 +389,12 @@
         </div>
         ${taxRow}
         <div class="card-cost-row pension-value-row">
-          <span>${pensionLabel}</span>
-          <strong>${money2(pensionMonthly)}<em>/ mese</em></strong>
-          <small>${isNeutral ? 'Nessuna differenza rispetto alla scala di riferimento' : `${money2(pensionAnnual)} / anno`}</small>
+          <span>${contributionLabel}</span>
+          <strong class="rate-result">${rateTransition}</strong>
+          <small>${rateDeltaLabel}</small>
         </div>
         <div class="card-tax-note">${taxNote}</div>
+        ${isNeutral ? '' : `<div class="card-pension-note">Con questa scala: <strong>${money2(contributionAnnual)} / anno</strong> di contributi CP ${delta > 0 ? 'in più' : 'in meno'} rispetto alla scala di riferimento.</div>`}
       </div>
       ${netBlock}
       <div class="simple-metrics">
@@ -418,8 +422,9 @@
     const x = scenarios.find(v => v.scale === selectedScale) || scenarios[1];
     const fiscal = fiscalResult(s, x);
     const same = Math.abs(x.decisionDelta) < 0.005;
-    const pensionMonthly = Math.abs(x.decisionDelta);
-    const pensionAnnual = Math.abs(x.annualDecisionDelta);
+    const referenceRate = P.rates[s.band2027][s.currentScale];
+    const rateDeltaPoints = (x.rate - referenceRate) * 100;
+    const contributionAnnual = Math.abs(x.annualDecisionDelta);
 
     const netBlock = Number.isFinite(x.netAfter)
       ? `<div class="summary-item"><span>Netto mensile 2027 stimato</span><strong>${money(x.netAfter)}</strong></div>`
@@ -449,14 +454,15 @@
             </div>
             ${fiscalCard}
             <div class="fiscal-equal-card pension-key-card">
-              <span>${x.decisionDelta > 0 ? 'In più nella tua previdenza' : 'In meno nella tua previdenza'}</span>
-              <strong>${money2(pensionMonthly)}</strong><em>/ mese</em>
-              <small>${money2(pensionAnnual)} / anno</small>
+              <span>Aliquota contributiva CP 2027</span>
+              <strong class="rate-result">${(referenceRate * 100).toFixed(2)}% → ${(x.rate * 100).toFixed(2)}%</strong>
+              <small>${rateDeltaPoints > 0 ? '+' : '−'}${Math.abs(rateDeltaPoints).toFixed(2)} punti percentuali rispetto alla scala di riferimento</small>
             </div>
           </div>
           <p class="balanced-explanation"><strong>Il punto essenziale:</strong> la trattenuta aggiuntiva è quella che incide davvero sul netto mensile. Il valore “dopo le imposte” è un equivalente economico stimato: il beneficio fiscale si manifesta nelle imposte, non riducendo la trattenuta CP in busta paga.</p>
+          <p class="balanced-explanation pension-explanation"><strong>Effetto contributivo:</strong> con questa scelta versi circa <strong>${money2(contributionAnnual)} ${x.decisionDelta > 0 ? 'in più' : 'in meno'} all’anno</strong> alla CP rispetto alla scala di riferimento. Questo importo descrive la differenza contributiva, non permette da solo di prevedere capitale, rendita o altre prestazioni future.</p>
           <p class="balanced-explanation tax-explanation">${fiscalExplanation}</p>
-          <small class="fiscal-disclaimer">Il confronto usa la Base CP attuale e aggiorna automaticamente la fascia d’età 2027. Se cambiano stipendio o grado d’occupazione, la Base CP va ricalcolata. Per vedere l’effetto su capitale e prestazioni future usa MyPension.</small>
+          <small class="fiscal-disclaimer">Il confronto usa la Base CP attuale e aggiorna automaticamente la fascia d’età 2027. Se cambiano stipendio o grado d’occupazione, la Base CP va ricalcolata. Le indicazioni previdenziali sono orientative: per calcoli personali e precisi su capitale, rendita e prestazioni future usa MyPension e, in caso di dubbio, rivolgiti alla Cassa Pensioni di Lugano.</small>
         </div>`;
 
     $('summaryPanel').innerHTML = `<div class="summary-secondary-title">Scala ${x.scale} · confronto con la scala di riferimento nel 2027</div>${hero}
