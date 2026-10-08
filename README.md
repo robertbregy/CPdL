@@ -1,8 +1,8 @@
-# CPdL - Simulatore scala contributiva - v0.19
+# CPdL - Simulatore scala contributiva - v0.20
 
 Prototipo statico per GitHub Pages. Tutti i calcoli avvengono nel browser; i dati inseriti non vengono inviati o salvati.
 
-## Aggiornamenti v0.19
+## Aggiornamenti v0.20
 
 La versione incorpora le conferme ricevute da HR il 7 ottobre 2026:
 

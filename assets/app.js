@@ -456,7 +456,7 @@
           </div>
           <p class="balanced-explanation"><strong>Il punto essenziale:</strong> la trattenuta aggiuntiva è quella che incide davvero sul netto mensile. Il valore “dopo le imposte” è un equivalente economico stimato: il beneficio fiscale si manifesta nelle imposte, non riducendo la trattenuta CP in busta paga.</p>
           <p class="balanced-explanation tax-explanation">${fiscalExplanation}</p>
-          <small class="fiscal-disclaimer">Il confronto assume Base CP, stipendio e grado d’occupazione invariati nel 2027. Per vedere l’effetto su capitale e prestazioni future usa MyPension.</small>
+          <small class="fiscal-disclaimer">Il confronto usa la Base CP attuale e aggiorna automaticamente la fascia d’età 2027. Se cambiano stipendio o grado d’occupazione, la Base CP va ricalcolata. Per vedere l’effetto su capitale e prestazioni future usa MyPension.</small>
         </div>`;
 
     $('summaryPanel').innerHTML = `<div class="summary-secondary-title">Scala ${x.scale} · confronto con la scala di riferimento nel 2027</div>${hero}
@@ -504,7 +504,7 @@
     }
 
     if (s.precision === 3) {
-      $('assumptionText').innerHTML = `<strong>Trattenuta calcolata dai dati della busta paga.</strong> Per il 2027 assumiamo Base CP, stipendio e grado d’occupazione invariati.${bandShift} I parametri 2027 possono ancora essere aggiornati.`;
+      $('assumptionText').innerHTML = `<strong>Trattenuta calcolata dai dati della busta paga.</strong> La fascia d’età 2027 viene aggiornata automaticamente. Assumiamo invece stipendio e grado d’occupazione invariati: se cambiano, va ricalcolata anche la Base CP.${bandShift} I parametri 2027 possono ancora essere aggiornati.`;
     } else if (startMode === 'bank') {
       const scaleText = s.currentScaleKnown ? `Scala ${s.currentScale}` : 'Scala 1 come riferimento standard';
       $('assumptionText').innerHTML = `<strong>Stima orientativa dal netto.</strong> Usiamo ${scaleText}, ${s.salaryMonths} mensilità e grado d’occupazione ${s.employmentRate}%.${bandShift} Se recuperi la busta paga puoi rendere il calcolo della trattenuta molto più preciso.`;
