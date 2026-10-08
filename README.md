@@ -1,8 +1,8 @@
-# CPdL - Simulatore scala contributiva - v0.21
+# CPdL - Simulatore scala contributiva - v0.22
 
 Prototipo statico per GitHub Pages. Tutti i calcoli avvengono nel browser; i dati inseriti non vengono inviati o salvati.
 
-## Aggiornamenti v0.21
+## Aggiornamenti v0.22
 
 La versione incorpora le conferme ricevute da HR il 7 ottobre 2026:
 
@@ -23,8 +23,9 @@ La versione incorpora le conferme ricevute da HR il 7 ottobre 2026:
 
 I parametri 2027 possono ancora cambiare in funzione dei valori federali e di eventuali modifiche del regolamento CPdL. La stima fiscale e volutamente approssimativa e non sostituisce un calcolo fiscale ufficiale. MyPension resta il riferimento per le prestazioni previdenziali future.
 
-
-## v0.21
-- Il terzo indicatore non duplica più la trattenuta in CHF: mostra il passaggio di aliquota contributiva CP e la variazione in punti percentuali.
-- Il maggior contributo annuale è mostrato come informazione di supporto, senza trasformarlo in una previsione di capitale o rendita.
-- Rafforzati i disclaimer previdenziali e il rinvio a MyPension e Cassa Pensioni di Lugano per simulazioni personali e precise.
+## v0.22
+- Il terzo indicatore mostra una proiezione lineare dei maggiori o minori contributi CP nel tempo invece di ripetere la stessa cifra della trattenuta mensile.
+- Nel riepilogo sono mostrati gli ordini di grandezza a 1, 5 e 10 anni, assumendo salario assicurato e scala invariati.
+- La proiezione non considera interessi, evoluzione salariale, grado d'occupazione, durata effettiva dell'assicurazione, pensionamento o modifiche regolamentari e non e una previsione del capitale o della rendita.
+- Rafforzato il rinvio a MyPension e alla Cassa Pensioni per simulazioni personali e precise.
+- Rafforzato il contrasto della sezione finale, dei pulsanti e del footer.
